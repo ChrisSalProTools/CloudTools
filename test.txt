@@ -1,4 +1,4 @@
-﻿function Add-ControlVariables {
+﻿function Add-ControlVariables() {
 	
 New-Variable -Name 'NewTicket' -Value $window.FindName('NewTicket') -Scope 1 -Force	
 New-Variable -Name 'ReadButton' -Value $window.FindName('ReadButton') -Scope 1 -Force	
