@@ -1,0 +1,52 @@
+
+Add-Type -AssemblyName presentationframework
+Add-Type -AssemblyName presentationcore
+
+$itsdform = @{}
+$xmlfile = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ScriptFiles/GUI/full.txt" -usebasicparsing
+$xmlfile = $xmlfile.content
+$xmlfileclean = $xmlfile -replace 'mc:Ignorable="d"','' -replace "x:N",'N' -replace 'x:Class=".*?"','' -replace 'd:DesignHeight="\d*?"','' -replace 'd:Designwidth="\d*?"',''
+[xml]$xmlfile = $xmlfileclean
+$reader = new-object System.Xml.XmlNodeReader $xmlfile
+$tempform = [windows.markup.xamlreader]::Load($reader)
+$NamedObjects = $xmlfile.selectnodes("//*[@*[contains(translate(name(.),'n','N'),'Name')]]")
+$namedobjects | foreach-object {
+
+$itsdform.Add($_.Name, $tempform.FindName($_.Name))
+
+}
+#Entire Script goes below - everything above is used to pull the GUI and make it readable
+#===================================================================================
+
+# Code that is executed when the Search button is clicked
+
+$itsdform.searchButton.add_Click({
+})
+
+$itsdform.BsamButton.add_Click({
+})
+
+$itsdform.PermissionsButton.add_Click({
+})
+
+$itsdform.VerifyButton.add_Click({
+})
+
+$itsdform.PWButton.add_Click({
+})
+
+$itsdform.LockoutButton.add_Click({
+})
+
+$itsdform.CMSButton.add_Click({
+})
+
+$itsdform.ADMButton.add_Click({
+})
+
+$itsdform.SettingsButton.add_Click({
+})
+
+#======================================================================================
+#OnTop
+$itsdform.ProToolsWindow.ShowDialog() | out-null
