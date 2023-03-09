@@ -1,4 +1,6 @@
 
+Remove-Variable * -ErrorAction SilentlyContinue
+
 Add-Type -AssemblyName presentationframework
 Add-Type -AssemblyName presentationcore
 
