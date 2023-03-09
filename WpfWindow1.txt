@@ -1,0 +1,17 @@
+<Window
+
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="MainWindow"
+
+  Title="Backup Ticket Form" Height="154" Width="360" Background="BackgroundColorVar">
+
+    <Grid x:Name="BackupTicketForm" SnapsToDevicePixels="True" Margin="0,0,0,-6">
+
+        <Button x:Name="NewTicket" Content="New Incident" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Height="28" Background="ButtonColorVar" Click="NewTicket"/>
+        <Button x:Name="SaveButton" Content="Archive CSV" HorizontalAlignment="Center" Height="27" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="ButtonColorVar" Margin="0,76,0,0" Click="SaveCSV"/>
+        <Button x:Name="ReadButton" Content="Read Tickets" HorizontalAlignment="Center" Height="28" Margin="0,43,0,0" VerticalAlignment="Top" Width="160" Background="ButtonColorVar" FontFamily="Arial" FontSize="14" Click="ReadTickets"/>
+
+    </Grid>
+
+</Window>
