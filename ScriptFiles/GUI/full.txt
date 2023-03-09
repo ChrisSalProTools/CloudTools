@@ -5,21 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BSAM"
         mc:Ignorable="d"
-        Title="ITSD Pro Tools" Height="235" Width="480" Background="BackgroundColorVar">
+        Title="ITSD Pro Tools" Height="235" Width="480" Background="#FF205D80">
     <Grid x:Name="ITSD_Pro_Tools">
-        <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left" Height="30" Margin="10,101,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" Foreground="Black" FontSize="14" FontFamily="Arial" RenderTransformOrigin="0.436,-0.763"/>
-        <TextBox x:Name="inputBox" HorizontalAlignment="Left" Height="29" Margin="10,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="439" Background="ButtonColorVar" FontSize="22" FontFamily="Arial" Text=""/>
+        <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left" Height="30" Margin="10,101,0,0" VerticalAlignment="Top" Width="100" Background="white" Foreground="Black" FontSize="14" FontFamily="Arial" RenderTransformOrigin="0.436,-0.763"/>
+        <TextBox x:Name="inputBox" HorizontalAlignment="Left" Height="29" Margin="10,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="439" Background="white" FontSize="22" FontFamily="Arial" Text=""/>
         <Label x:Name="LabelLabel" Content="What Do You Want To Do?" HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Width="450" FontFamily="Arial" FontSize="14"/>
-        <Button x:Name="BsamButton" Content="BSAM Lookup" HorizontalAlignment="Left" Height="30" Margin="122,101,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" Foreground="Black" FontSize="14" FontFamily="Arial" RenderTransformOrigin="0.45,2.468"/>
-        <CheckBox x:Name="SharepointCheckBox" Content="SharePoint" HorizontalAlignment="Left" Height="18" Margin="123,69,0,0" VerticalAlignment="Top" Width="98" FontFamily="Arial" Background="ButtonColorVar"/>
-        <CheckBox x:Name="NotesCheckBox" Content="Note Page" HorizontalAlignment="Left" Height="18" Margin="10,69,0,0" VerticalAlignment="Top" Width="108" FontFamily="Arial " Background="ButtonColorVar"/>
-        <Button x:Name="PermissionsButton" Content="Permissions" HorizontalAlignment="Left" Height="30" Margin="235,101,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14" RenderTransformOrigin="0.52,0.035"/>
-        <CheckBox x:Name="OneDriveCheckbox" Content="Chalk" HorizontalAlignment="Left" Height="18" Margin="235,69,0,0" VerticalAlignment="Top" Width="100" FontFamily="Arial" Background="ButtonColorVar"/>
-        <Button x:Name="ADMButton" Content="ADM Tool" HorizontalAlignment="Left" Height="30" Margin="349,101,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14" RenderTransformOrigin="0.55,-0.465"/>
-        <CheckBox x:Name="ITSPCheckbox" Content="ITSP Cherwell" HorizontalAlignment="Left" Height="18" Margin="349,69,0,0" VerticalAlignment="Top" Width="112" FontFamily="Arial" Background="ButtonColorVar"/>
-        <Button x:Name="CMSButton" Content="CMS" HorizontalAlignment="Left" Height="30" Margin="10,145,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14"/>
-        <Button x:Name="PWButton" Content="More Tools" HorizontalAlignment="Left" Height="30" Margin="122,145,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14"/>
-        <Button x:Name="LockoutButton" Content="Backup Ticket" HorizontalAlignment="Left" Height="30" Margin="235,145,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14"/>
+        <Button x:Name="BsamButton" Content="BSAM Lookup" HorizontalAlignment="Left" Height="30" Margin="122,101,0,0" VerticalAlignment="Top" Width="100" Background="white" Foreground="Black" FontSize="14" FontFamily="Arial" RenderTransformOrigin="0.45,2.468"/>
+        <CheckBox x:Name="SharepointCheckBox" Content="SharePoint" HorizontalAlignment="Left" Height="18" Margin="123,69,0,0" VerticalAlignment="Top" Width="98" FontFamily="Arial" Background="white"/>
+        <CheckBox x:Name="NotesCheckBox" Content="Note Page" HorizontalAlignment="Left" Height="18" Margin="10,69,0,0" VerticalAlignment="Top" Width="108" FontFamily="Arial " Background="white"/>
+        <Button x:Name="PermissionsButton" Content="Permissions" HorizontalAlignment="Left" Height="30" Margin="235,101,0,0" VerticalAlignment="Top" Width="100" Background="white" FontFamily="Arial" FontSize="14" RenderTransformOrigin="0.52,0.035"/>
+        <CheckBox x:Name="OneDriveCheckbox" Content="Chalk" HorizontalAlignment="Left" Height="18" Margin="235,69,0,0" VerticalAlignment="Top" Width="100" FontFamily="Arial" Background="white"/>
+        <Button x:Name="ADMButton" Content="ADM Tool" HorizontalAlignment="Left" Height="30" Margin="349,101,0,0" VerticalAlignment="Top" Width="100" Background="white" FontFamily="Arial" FontSize="14" RenderTransformOrigin="0.55,-0.465"/>
+        <CheckBox x:Name="ITSPCheckbox" Content="ITSP Cherwell" HorizontalAlignment="Left" Height="18" Margin="349,69,0,0" VerticalAlignment="Top" Width="112" FontFamily="Arial" Background="white"/>
+        <Button x:Name="CMSButton" Content="CMS" HorizontalAlignment="Left" Height="30" Margin="10,145,0,0" VerticalAlignment="Top" Width="100" Background="white" FontFamily="Arial" FontSize="14"/>
+        <Button x:Name="PWButton" Content="More Tools" HorizontalAlignment="Left" Height="30" Margin="122,145,0,0" VerticalAlignment="Top" Width="100" Background="white" FontFamily="Arial" FontSize="14"/>
+        <Button x:Name="LockoutButton" Content="Backup Ticket" HorizontalAlignment="Left" Height="30" Margin="235,145,0,0" VerticalAlignment="Top" Width="100" Background="white" FontFamily="Arial" FontSize="14"/>
         <Button x:Name="VerifyButton" Content="Verify" HorizontalAlignment="Left" Height="30" Margin="349,145,0,0" VerticalAlignment="Top" Width="100" Background="ButtonColorVar" FontFamily="Arial" FontSize="14"/>
         <Button x:Name="SettingsButton" Content="?" HorizontalAlignment="Left" Height="10" Margin="453,185,0,0" VerticalAlignment="Top" Width="10" RenderTransformOrigin="0.55,0.654" FontFamily="Verdana" FontSize="6" Background="ButtonColorVar" Opacity="0.5"/>
 
