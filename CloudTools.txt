@@ -13,7 +13,7 @@ mkdir $env:userprofile\Appdata\local\CloudTools
 "" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                                         # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"   # location of notes page initilized
 # this section handles the creation of the server list
-
+start-process -wait powershell.exe -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
 }
 
 exit
