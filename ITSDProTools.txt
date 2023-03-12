@@ -5,7 +5,7 @@ Add-Type -AssemblyName presentationframework
 Add-Type -AssemblyName presentationcore
 
 $itsdform = @{}
-$xmlfile = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ScriptFiles/GUI/full.txt" -usebasicparsing
+$xmlfile = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/full.txt" -usebasicparsing
 $xmlfile = $xmlfile.content
 $xmlfileclean = $xmlfile -replace 'mc:Ignorable="d"','' -replace "x:N",'N' -replace 'x:Class=".*?"','' -replace 'd:DesignHeight="\d*?"','' -replace 'd:Designwidth="\d*?"',''
 [xml]$xmlfile = $xmlfileclean
