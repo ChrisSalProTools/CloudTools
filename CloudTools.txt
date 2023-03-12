@@ -22,7 +22,7 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 Write-output "Generating CHTR server list..."
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
 write-output "CHTR server list created"
-write-output "Generating TWC server list"
+write-output "Generating TWC server list..."
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
 Write-output "Finished!"
 Write-output "Launching..."
