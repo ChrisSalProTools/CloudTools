@@ -1,0 +1,690 @@
+#
+function set-consolecolor ($bc, $fc) {
+$Host.UI.RawUi.BackgroundColor = $bc
+$Host.Ui.RawUi.foregroundcolor = $fc
+clear-host
+}
+set-consolecolor 'black' 'red'
+
+[console]::windowwidth=45; [console]::windowheight=15; [console]::BufferWidth=[Console]::windowwidth
+
+$input = Read-Host -Prompt "Enter CHTR ID"
+
+$chtrdc = "NCECNIMDC41.corp.chartercom.com"
+
+$storedPID = $input
+
+write-host "Searching..."
+
+# Get the PID to search and then get the manager of the PID
+$obj = get-aduser $input -properties * | select-object manager
+
+# if the obj is null - this means the server didn't respond. the below if statement will switch to the backup verification automatically.
+
+if($obj -eq $null){
+$obj = get-aduser $input -server $chtrdc -properties * | select-object manager
+
+$obj = $obj | out-string
+$obj = $obj.split("(")
+$obj = $obj.split(")")
+$obj = $obj[1]
+
+# Get the basic information on the FM of the PID entered
+
+$SupBase = get-aduser $obj -server $chtrdc -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the employee type of the FM (The Job Code)
+
+$SupEmployeeType = $SupBase | select-object employeeType
+$SupEmployeeType = $SupEmployeeType -replace "employeeType",""
+$SupEmployeeType = $SupEmployeeType -replace "{",""
+$SupEmployeeType = $SupEmployeeType -replace "}",""
+$SupEmployeeType = $SupEmployeeType -replace "=",""
+$SupEmployeeType = $SupEmployeeType -replace "@",""
+
+# Get the FM's FM
+
+$MgrObj = get-aduser $obj -server $chtrdc -properties * | select-object manager
+$Mgrobj = $Mgrobj | out-string
+$Mgrobj = $Mgrobj.split("(")
+$Mgrobj = $Mgrobj.split(")")
+$Mgrobj = $Mgrobj[1]
+
+# Get the FM's FM's Basic Information
+
+$MgrBase = get-aduser $Mgrobj -server $chtrdc -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the FM's FM's Job code
+
+$MgrEmployeeType = $MgrBase | select-object employeeType
+$MgrEmployeeType = $MgrEmployeeType -replace "employeeType",""
+$MgrEmployeeType = $MgrEmployeeType -replace "{",""
+$MgrEmployeeType = $MgrEmployeeType -replace "}",""
+$MgrEmployeeType = $MgrEmployeeType -replace "=",""
+$MgrEmployeeType = $MgrEmployeeType -replace "@",""
+
+# Get the manager 3 levels up (FM's FM's FM)
+
+$DirObj = get-aduser $MgrObj -server $chtrdc -properties * | select-object manager
+$DirObj = $DirObj | out-string
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+# Get the third level up manager's basic information
+
+$DirBase = get-aduser $DirObj -server $chtrdc -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the third manager's up job code
+
+$DirEmployeeType = $DirBase | select-object employeeType
+$DirEmployeeType = $DirEmployeeType -replace "employeeType",""
+$DirEmployeeType = $DirEmployeeType -replace "{",""
+$DirEmployeeType = $DirEmployeeType -replace "}",""
+$DirEmployeeType = $DirEmployeeType -replace "=",""
+$DirEmployeeType = $DirEmployeeType -replace "@",""
+
+# get the PID of the manager four levels up
+
+$VPObj = Get-ADUser $DirObj -server $chtrdc -Properties * | Select-Object manager
+$VPObj = $VPObj | Out-String
+$VPObj = $VPObj.split("(")
+$VPObj = $VPObj.split(")")
+$VPObj = $VPObj[1]
+
+if($SupEmployeeType -eq "E"){
+#This is the code that will run if the FM is an employee
+#==========================================================================================================
+
+# This section is to get peers of FM and store them in the SupMatch variable
+
+$SupJobTitle = $SupBase | select-object chtr-jobcode
+$SupJobTitle = $SupJobTitle -replace "chtr-jobcode",""
+$SupJobTitle = $SupJobTitle -replace "{",""
+$SupJobTitle = $SupJobTitle -replace "}",""
+$SupJobTitle = $SupJobTitle -replace "=",""
+$SupJobTitle = $SupJobTitle -replace "@",""
+
+$SupPeers = Get-ADUser $Mgrobj -server $chtrdc -properties DirectReports | select-object -expandproperty DirectReports
+$SupFormat = $SupPeers | ForEach-Object {
+Get-ADUser $_ -server $chtrdc -properties * | select-object chtr-jobcode, chtr-posnlvl, CN
+}
+$SupMatch = @($SupFormat | select-string $SupJobTitle)
+$mod = 0
+$var = 0
+$SupFormat | ForEach-Object {
+
+$contains = $SupFormat[$mod] | select-string "$SupJobTitle"
+if ($contains -ne $null){
+$SupMatch[$var] = $SupFormat[$mod]
+$var++
+}
+$contains = ""
+$mod++
+}
+
+# This section is to get the peers of the FM's FM and store them in the MgrMatch variable
+
+$MgrJobTitle = $MgrBase | select-object chtr-jobcode
+$MgrJobTitle = $MgrJobTitle -replace "chtr-jobcode",""
+$MgrJobTitle = $MgrJobTitle -replace "{",""
+$MgrJobTitle = $MgrJobTitle -replace "}",""
+$MgrJobTitle = $MgrJobTitle -replace "=",""
+$MgrJobTitle = $MgrJobTitle -replace "@",""
+
+$DirObj = get-aduser $MgrObj -server $chtrdc -properties * | select-object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+$MgrPeers = Get-ADUser $DirObj -server $chtrdc -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$MgrFormat = $MgrPeers | ForEach-Object {
+
+    Get-ADUser $_ -server $chtrdc -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$MgrMatch = @($MgrFormat | Select-String $MgrJobTitle)
+$mod = 0
+$var = 0
+$MgrFormat | ForEach-Object {
+    $contains = $MgrFormat[$mod] | Select-String "$MgrJobTitle"
+    if ($contains -ne $null){
+        $MgrMatch[$var] = $MgrFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -server $chtrdc -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -server $chtrdc -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -server $chtrdc -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$selectResults = $SupMatch + $MgrMatch + $DirMatch | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}elseif($MgrEmployeeType -eq "E"){
+#This is the code that will run if the FM's FM is an employee. Include the direct FM in the output list of who can verify 
+#==========================================================================================================
+
+$MgrJobTitle = $MgrBase | select-object chtr-jobcode
+$MgrJobTitle = $MgrJobTitle -replace "chtr-jobcode",""
+$MgrJobTitle = $MgrJobTitle -replace "{",""
+$MgrJobTitle = $MgrJobTitle -replace "}",""
+$MgrJobTitle = $MgrJobTitle -replace "=",""
+$MgrJobTitle = $MgrJobTitle -replace "@",""
+
+$DirObj = get-aduser $MgrObj -server $chtrdc -properties * | select-object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+$MgrPeers = Get-ADUser $DirObj -server $chtrdc -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$MgrFormat = $MgrPeers | ForEach-Object {
+
+    Get-ADUser $_ -server $chtrdc -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$MgrMatch = @($MgrFormat | Select-String $MgrJobTitle)
+$mod = 0
+$var = 0
+$MgrFormat | ForEach-Object {
+    $contains = $MgrFormat[$mod] | Select-String "$MgrJobTitle"
+    if ($contains -ne $null){
+        $MgrMatch[$var] = $MgrFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -server $chtrdc -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -server $chtrdc -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -server $chtrdc -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$Null + $MgrMatch + $DirMatch | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}elseif($DirEmployeeType -eq "E"){
+#This is the code that will run if the FM's FM's FM is the first employee in the list 
+#==========================================================================================================
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -server $chtrdc -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -server $chtrdc -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -server $chtrdc -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$MgrBaseClean = $MgrBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$MgrBaseClean + $DirMatch | Out-GridView -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}else{
+#if the script makes it down to here, then simply output the FMs and none laterally
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$MgrBaseClean = $MgrBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$DirBaseClean = $DirBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$MgrBaseClean,$DirBaseClean | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+}
+}else{
+
+# this is the end of the if statement. if the obj is not null, the following code will run.
+
+$obj = $obj | out-string
+$obj = $obj.split("(")
+$obj = $obj.split(")")
+$obj = $obj[1]
+
+# Get the basic information on the FM of the PID entered
+
+$SupBase = get-aduser $obj -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the employee type of the FM (The Job Code)
+
+$SupEmployeeType = $SupBase | select-object employeeType
+$SupEmployeeType = $SupEmployeeType -replace "employeeType",""
+$SupEmployeeType = $SupEmployeeType -replace "{",""
+$SupEmployeeType = $SupEmployeeType -replace "}",""
+$SupEmployeeType = $SupEmployeeType -replace "=",""
+$SupEmployeeType = $SupEmployeeType -replace "@",""
+
+# Get the FM's FM
+
+$MgrObj = get-aduser $obj -properties * | select-object manager
+$Mgrobj = $Mgrobj | out-string
+$Mgrobj = $Mgrobj.split("(")
+$Mgrobj = $Mgrobj.split(")")
+$Mgrobj = $Mgrobj[1]
+
+# Get the FM's FM's Basic Information
+
+$MgrBase = get-aduser $Mgrobj -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the FM's FM's Job code
+
+$MgrEmployeeType = $MgrBase | select-object employeeType
+$MgrEmployeeType = $MgrEmployeeType -replace "employeeType",""
+$MgrEmployeeType = $MgrEmployeeType -replace "{",""
+$MgrEmployeeType = $MgrEmployeeType -replace "}",""
+$MgrEmployeeType = $MgrEmployeeType -replace "=",""
+$MgrEmployeeType = $MgrEmployeeType -replace "@",""
+
+# Get the manager 3 levels up (FM's FM's FM)
+
+$DirObj = get-aduser $MgrObj -properties * | select-object manager
+$DirObj = $DirObj | out-string
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+# Get the third level up manager's basic information
+
+$DirBase = get-aduser $DirObj -properties * | select-object chtr-jobcode, chtr-posnlvl, employeeType, CN
+
+# Get the third manager's up job code
+
+$DirEmployeeType = $DirBase | select-object employeeType
+$DirEmployeeType = $DirEmployeeType -replace "employeeType",""
+$DirEmployeeType = $DirEmployeeType -replace "{",""
+$DirEmployeeType = $DirEmployeeType -replace "}",""
+$DirEmployeeType = $DirEmployeeType -replace "=",""
+$DirEmployeeType = $DirEmployeeType -replace "@",""
+
+# get the PID of the manager four levels up
+
+$VPObj = Get-ADUser $DirObj -Properties * | Select-Object manager
+$VPObj = $VPObj | Out-String
+$VPObj = $VPObj.split("(")
+$VPObj = $VPObj.split(")")
+$VPObj = $VPObj[1]
+
+if($SupEmployeeType -eq "E"){
+#This is the code that will run if the FM is an employee
+#==========================================================================================================
+
+# This section is to get peers of FM and store them in the SupMatch variable
+
+$SupJobTitle = $SupBase | select-object chtr-jobcode
+$SupJobTitle = $SupJobTitle -replace "chtr-jobcode",""
+$SupJobTitle = $SupJobTitle -replace "{",""
+$SupJobTitle = $SupJobTitle -replace "}",""
+$SupJobTitle = $SupJobTitle -replace "=",""
+$SupJobTitle = $SupJobTitle -replace "@",""
+
+$SupPeers = Get-ADUser $Mgrobj -properties DirectReports | select-object -expandproperty DirectReports
+$SupFormat = $SupPeers | ForEach-Object {
+Get-ADUser $_ -properties * | select-object chtr-jobcode, chtr-posnlvl, CN
+}
+$SupMatch = @($SupFormat | select-string $SupJobTitle)
+$mod = 0
+$var = 0
+$SupFormat | ForEach-Object {
+
+$contains = $SupFormat[$mod] | select-string "$SupJobTitle"
+if ($contains -ne $null){
+$SupMatch[$var] = $SupFormat[$mod]
+$var++
+}
+$contains = ""
+$mod++
+}
+
+# This section is to get the peers of the FM's FM and store them in the MgrMatch variable
+
+$MgrJobTitle = $MgrBase | select-object chtr-jobcode
+$MgrJobTitle = $MgrJobTitle -replace "chtr-jobcode",""
+$MgrJobTitle = $MgrJobTitle -replace "{",""
+$MgrJobTitle = $MgrJobTitle -replace "}",""
+$MgrJobTitle = $MgrJobTitle -replace "=",""
+$MgrJobTitle = $MgrJobTitle -replace "@",""
+
+$DirObj = get-aduser $MgrObj -properties * | select-object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+$MgrPeers = Get-ADUser $DirObj -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$MgrFormat = $MgrPeers | ForEach-Object {
+
+    Get-ADUser $_ -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$MgrMatch = @($MgrFormat | Select-String $MgrJobTitle)
+$mod = 0
+$var = 0
+$MgrFormat | ForEach-Object {
+    $contains = $MgrFormat[$mod] | Select-String "$MgrJobTitle"
+    if ($contains -ne $null){
+        $MgrMatch[$var] = $MgrFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$selectResults = $SupMatch + $MgrMatch + $DirMatch | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}elseif($MgrEmployeeType -eq "E"){
+#This is the code that will run if the FM's FM is an employee. Include the direct FM in the output list of who can verify 
+#==========================================================================================================
+
+$MgrJobTitle = $MgrBase | select-object chtr-jobcode
+$MgrJobTitle = $MgrJobTitle -replace "chtr-jobcode",""
+$MgrJobTitle = $MgrJobTitle -replace "{",""
+$MgrJobTitle = $MgrJobTitle -replace "}",""
+$MgrJobTitle = $MgrJobTitle -replace "=",""
+$MgrJobTitle = $MgrJobTitle -replace "@",""
+
+$DirObj = get-aduser $MgrObj -properties * | select-object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.split(")")
+$DirObj = $DirObj[1]
+
+$MgrPeers = Get-ADUser $DirObj -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$MgrFormat = $MgrPeers | ForEach-Object {
+
+    Get-ADUser $_ -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$MgrMatch = @($MgrFormat | Select-String $MgrJobTitle)
+$mod = 0
+$var = 0
+$MgrFormat | ForEach-Object {
+    $contains = $MgrFormat[$mod] | Select-String "$MgrJobTitle"
+    if ($contains -ne $null){
+        $MgrMatch[$var] = $MgrFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$Null + $MgrMatch + $DirMatch | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}elseif($DirEmployeeType -eq "E"){
+#This is the code that will run if the FM's FM's FM is the first employee in the list 
+#==========================================================================================================
+
+# This Section is to get the peers of the FM's FM's FM and store them in the DirMatch variable
+
+$DirJobTitle = $DirBase | Select-Object chtr-jobcode
+$DirJobTitle = $DirJobTitle -replace "chtr-jobcode",""
+$DirJobTitle = $DirJobTitle -replace "{",""
+$DirJobTitle = $DirJobTitle -replace "}",""
+$DirJobTitle = $DirJobTitle -replace "=",""
+$DirJobTitle = $DirJobTitle -replace "@",""
+
+$DirObj = get-aduser $DirObj -Properties * | Select-Object manager
+$DirObj = $DirObj | Out-String
+$DirObj = $DirObj.split("(")
+$DirObj = $DirObj.Split(")")
+$DirObj = $DirObj[1]
+
+$DirPeers = Get-AdUser $VPObj -Properties DirectReports | Select-Object -ExpandProperty DirectReports
+$DirFormat = $DirPeers | ForEach-Object {
+
+    Get-ADUser $_ -Properties * | Select-Object chtr-jobcode, chtr-posnlvl, CN
+}
+$DirMatch = @($DirFormat | select-string $DirJobTitle)
+$mod = 0
+$var = 0
+$DirFormat | ForEach-Object {
+    $contains = $DirFormat[$mod] | Select-String "$DirJobTitle"
+    if ($contains -ne $null){
+        $DirMatch[$var] = $DirFormat[$mod]
+        $var++
+    }
+    $contains = ""
+    $mod++
+}
+
+# Output the results in a nice little format
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$MgrBaseClean = $MgrBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$MgrBaseClean + $DirMatch | Out-GridView -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+#==========================================================================================================
+}else{
+#if the script makes it down to here, then simply output the FMs and none laterally
+
+$SupBaseClean = $SupBase | select-object chtr-jobcode, chtr-posnlvl, CN
+$MgrBaseClean = $MgrBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$DirBaseClean = $DirBase | Select-Object chtr-jobcode, chtr-posnlvl, CN
+$selectResults = $SupBaseClean,$MgrBaseClean,$DirBaseClean | out-gridview -PassThru -Title "Who Can Verify For $storedPID"
+
+# Add selected name to clipboard
+
+$selectResults = $selectResults | Select-Object CN
+$selectResults = $selectResults | Out-String
+$selectResults = $selectResults.split("(")
+$selectResults = $selectResults.split(")")
+$selectResults = $selectResults[1]
+$selectResults | Set-Clipboard
+}
+}
