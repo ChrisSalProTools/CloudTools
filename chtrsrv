@@ -1,0 +1,144 @@
+#
+# test the connectivity status of the server in the config file 
+
+$chtrdc = get-content $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+
+$chtrpc = $chtrdc
+$chtrpc = $chtrpc -replace ".corp.chartercom.com",""
+
+$testchtr = get-adcomputer $chtrpc -server $chtrdc -properties *
+
+if ($testchtr -eq $null){
+# code that is run if the server is offline - get content from the server list previously created
+$newsrv = Get-Content $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+$newsrvcount = $newsrv.count
+
+if ($newsrvcount -le 5){
+    # if this section runs it means the server list does not exist or did not get generated correctly
+    $lasthope = $env:logonserver
+    $chtrpc = $lasthope -replace "\\",""
+    $chtrdc = $chtrpc + ".corp.chartercom.com"
+    $testchtr = get-adcomputer $chtrpc -server $chtrdc -properties *
+
+    if ($testchtr -eq $null){
+        # the log on server is offline - you're screwed. Generate a gui to ask for a server manually
+        # do an invoke web request here!!
+    }else{
+        # the log on server is online - we can use it to get a working server again
+        $chtrdc > $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+        # log on server is set as the server to contact - temporarily
+        # generate a new server list
+        $DCList = Get-ADDomainController -Filter * -Server $chtrdc | Select-Object Hostname
+        $mod = 0
+        $DClist | ForEach-Object {
+            $Dclist[$mod] = $Dclist[$mod].hostname
+            $mod++
+        }
+
+        $null | Out-File $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+        $DClist >> $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+
+        # replace the temp log on server variable with a new server
+
+        $newsrv = Get-Content $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+        $newsrvcount = $newsrv.count
+        $blank = $null
+        Do{
+            $rng = get-random $newsrvcount
+            $randomlychosenDC = $newsrv[$rng]
+        
+            # test the randomly chosen DC
+        
+            $chtrdc = $randomlychosenDC
+            $chtrpc = $randomlychosenDC -replace ".corp.chartercom.com",""
+            $testnewsrv = get-adcomputer $chtrpc -server $chtrdc -properties *
+            }while($testnewsrv -eq $blank)
+        
+            $chtrdc > $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+    }
+
+}else{
+    # this code will pick a new server from the list and test it
+    # after choosing and testing a new server, test the age of the server list and update it if over 30 days
+
+    # create while loop to find a working DC
+    $blank = $null
+    Do{
+    $rng = get-random $newsrvcount
+    $randomlychosenDC = $newsrv[$rng]
+
+    # test the randomly chosen DC
+
+    $chtrdc = $randomlychosenDC
+    $chtrpc = $randomlychosenDC -replace ".corp.chartercom.com",""
+    $testnewsrv = get-adcomputer $chtrpc -server $chtrdc -properties *
+    }while($testnewsrv -eq $blank)
+
+    $chtrdc > $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+
+    # test server list age
+
+    $ServerListAge = "$env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt"
+
+    $ServerLastWrite = (get-item $ServerListAge).LastWriteTime
+
+    $timespan = new-timespan -days 30 -hours 0 -minutes 0
+
+    if (((get-date) - $ServerLastWrite) -gt $timespan){
+
+        # the server list is oler than 30 days - regenerate it 
+        remove-item "$env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt"
+
+        $DCList = Get-ADDomainController -Filter * -Server $chtrdc | Select-Object Hostname
+        $mod = 0
+        $DClist | ForEach-Object {
+            $Dclist[$mod] = $Dclist[$mod].hostname
+            $mod++
+        }
+
+        $null | Out-File $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+        $DClist >> $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+    
+    }
+
+}
+}else{
+    # the server is online - this code will check the server list and make sure it 1. exists and 2. is no more than 30 days old. 
+
+    if (Test-Path "$env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt"){
+
+        $ServerListAge = "$env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt"
+
+        $ServerLastWrite = (get-item $ServerListAge).LastWriteTime
+    
+        $timespan = new-timespan -days 30 -hours 0 -minutes 0
+        if (((get-date) - $ServerLastWrite) -gt $timespan){
+    
+            # the server list is oler than 30 days - regenerate it 
+            remove-item "$env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt"
+    
+            $DCList = Get-ADDomainController -Filter * -Server $chtrdc | Select-Object Hostname
+            $mod = 0
+            $DClist | ForEach-Object {
+                $Dclist[$mod] = $Dclist[$mod].hostname
+                $mod++
+            }
+    
+            $null | Out-File $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+            $DClist >> $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+        
+        }
+    }else{
+         # the server list does not exist - regenerate it
+    
+         $DCList = Get-ADDomainController -Filter * -Server $chtrdc | Select-Object Hostname
+         $mod = 0
+         $DClist | ForEach-Object {
+             $Dclist[$mod] = $Dclist[$mod].hostname
+             $mod++
+         }
+ 
+         $null | Out-File $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+         $DClist >> $env:userprofile\AppData\Local\CloudTools\chtrserverlist.txt
+    }
+}
