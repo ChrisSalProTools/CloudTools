@@ -13,8 +13,8 @@ $BackgroundText = get-content $env:userprofile\AppData\Local\CloudTools\Backgrou
 $ButtonText = get-content $env:userprofile\AppData\Local\CloudTools\ButtonText.txt
 $xmlfile = $xmlfile -replace "BackgroundColorVar","$BackgroundColorChoice"
 $xmlfile = $xmlfile -replace "ButtonColorVar","$ButtonColorChoice"
-$xmlfile = $xmlfile -replace "ButtonTextVar","$BackgroundText"
-$xmlfile = $xmlfile -replace "BackgroundTextVar","$ButtonText"
+$xmlfile = $xmlfile -replace "BackgroundTextVar","$BackgroundText"
+$xmlfile = $xmlfile -replace "ButtonTextVar","$ButtonText"
 $xmlfileclean = $xmlfile -replace 'mc:Ignorable="d"','' -replace "x:N",'N' -replace 'x:Class=".*?"','' -replace 'd:DesignHeight="\d*?"','' -replace 'd:Designwidth="\d*?"',''
 [xml]$xmlfile = $xmlfileclean
 $reader = new-object System.Xml.XmlNodeReader $xmlfile
