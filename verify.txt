@@ -10,7 +10,7 @@ set-consolecolor 'black' 'red'
 
 $input = Read-Host -Prompt "Enter CHTR ID"
 
-$chtrdc = "NCECNIMDC41.corp.chartercom.com"
+$chtrdc = get-content "$env:userprofile\AppData\Local\CloudTools\chtrdc.txt"
 
 $storedPID = $input
 
