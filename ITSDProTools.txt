@@ -35,6 +35,7 @@ $itsdform.VerifyButton.add_Click({
 $UsrInput = $itsdform.inputBox.text
 $UsrInput > $env:userprofile\AppData\Local\CloudTools\outfile.txt
 start-process powershell.exe -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/verify.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
+$itsdform.inputBox.text = ""
 })
 
 $itsdform.PWButton.add_Click({
