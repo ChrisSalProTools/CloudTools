@@ -33,7 +33,6 @@ $itsdform.PermissionsButton.add_Click({
 
 $itsdform.VerifyButton.add_Click({
 start-process powershell.exe -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/verify.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
-start-sleep -seconds 1; $playwav = new-object system.media.soundplayer; $playwav.soundlocation = 'C:\Windows\Media\tada.wav'; $playwav.playsync()
 })
 
 $itsdform.PWButton.add_Click({
