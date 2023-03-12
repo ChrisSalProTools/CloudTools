@@ -6,19 +6,24 @@ write-output "ITSDProTools installed."
 Write-output "Launching..."
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
 start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
+start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
 }else{
 # this code is for when the above test-path fails - meaning the tool is not installed and no config files exist
 Write-output "ITSDProTools not installed."
 Write-output "Generating config files..."
-mkdir $env:userprofile\Appdata\local\CloudTools
-"" | out-file "$env:userprofile\Appdata\local\CloudTools\Background.txt"                                                    # config file for background color
-"" | out-file "$env:userprofile\Appdata\local\CloudTools\Button.txt"                                                        # config file for button color
-"" | out-file "$env:userprofile\Appdata\local\CloudTools\ButtonText.txt"                                                    # config file for button text color
-"" | out-file "$env:userprofile\Appdata\local\CloudTools\BackgroundText.txt"                                                # config file for bacground text color
-"" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                                         # initial creation of notes page
-"$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"   # location of notes page initilized
+mkdir $env:userprofile\Appdata\local\CloudTools | out-null
+"#FF205D80" | out-file "$env:userprofile\Appdata\local\CloudTools\Background.txt"                                               # config file for background color
+"white" | out-file "$env:userprofile\Appdata\local\CloudTools\Button.txt"                                                       # config file for button color
+"#000000" | out-file "$env:userprofile\Appdata\local\CloudTools\ButtonText.txt"                                                 # config file for button text color
+"white" | out-file "$env:userprofile\Appdata\local\CloudTools\BackgroundText.txt"                                               # config file for bacground text color
+"Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
+"$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
 # this section handles the creation of the server list
+Write-output "Generating CHTR server list..."
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
+write-output "CHTR server list created"
+write-output "Generating TWC server list"
+start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
 Write-output "Finished!"
 Write-output "Launching..."
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
