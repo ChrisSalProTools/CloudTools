@@ -1,0 +1,135 @@
+#
+# test the connectivity status of the server in the config file 
+
+$twcdc = get-content $env:userprofile\AppData\Local\CloudTools\twcdc.txt
+
+$twcpc = $twcdc
+$twcpc = $twcpc -replace ".corp.twcable.com",""
+
+$testtwc = get-adcomputer $twcpc -server $twcdc -Properties *
+
+if ($testtwc -eq $null){
+    # code that is run if the server is offline
+    $newsrv = Get-Content $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+    $newsrvcount = $newsrv.count
+
+    if ($newsrvcount -le 5){
+        # if this section runs it means the server list does not exist or did not get generated correctly
+        # try to use a default server to generate a server list
+        $DClist = Get-ADDomainController -Filter * -Server corp.twcable.com | Select-Object hostname
+
+        if ($DClist -eq $null){
+            # generation failed - create gui and ask for manaual input
+            powershell.exe C:\ITSDProTools\ScriptFiles\failedtwc.ps1
+        }else{
+            $mod = 0
+            $Dclist | ForEach-Object {
+                $Dclist[$mod] = $Dclist[$mod].hostname
+                $mod++
+            }
+            $null | Out-File $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+            $DClist >> $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+
+            $newsrv = Get-Content $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+            $newsrvcount = $newsrv.count
+            $blank = $null
+            Do{
+                $rng = get-random $newsrvcount
+                $randomlychosenDC = $newsrv[$rng]
+
+                # test randomly chosen DC
+
+                $twcdc = $randomlychosenDC
+                $twcpc = $randomlychosenDC -replace ".corp.twcable.com",""
+                $testnewsrv = get-adcomputer $twcpc -server $twcdc -Properties * 
+
+            }while($testnewsrv -eq $blank)
+
+            $twcdc > $env:userprofile\AppData\Local\CloudTools\twcdc.txt
+        }
+    }else{
+        # the server list exists - pick a server and set it and then test if the server list is outdated
+        $blank = $null
+        Do{
+            $rng = get-random $newsrvcount
+            $randomlychosenDC = $newsrv[$rng]
+
+            # test randomly chosen DC
+
+            $twcdc = $randomlychosenDC
+            $twcpc = $randomlychosenDC -replace ".corp.twcable.com",""
+            $testnewsrv = get-adcomputer $twcpc -server $twcdc -Properties * 
+
+        }while($testnewsrv -eq $blank)
+
+        $twcdc > $env:userprofile\AppData\Local\CloudTools\twcdc.txt
+
+        # test if server list is outdated
+
+        $ServerListAge = "$env:userprofile\AppData\Local\CloudTools\twcserverlist.txt"
+
+        $ServerLastWrite = (get-item $ServerListAge).LastWriteTime
+
+        $timespan = new-timespan -days 30 -hours 0 -minutes 0
+
+        if (((get-date) - $ServerLastWrite) -gt $timespan){
+            # the server list is older than 30 days, regenerate it
+
+            Remove-Item "$env:userprofile\AppData\Local\CloudTools\twcserverlist.txt"
+
+            $DClist = Get-ADDomainController -Filter * -Server $twcdc | Select-Object Hostname
+
+            $mod = 0
+            $DClist | ForEach-Object {
+                $Dclist[$mod] = $Dclist[$mod].hostname
+                $mod++
+            }
+
+            $null | out-file $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+            $DClist >> $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+
+        }
+    }
+}else{
+    # code that is run if the server is not offline
+    if (Test-Path "$env:userprofile\AppData\Local\CloudTools\twcserverlist.txt"){
+        # test server list age
+        $ServerListAge = "$env:userprofile\AppData\Local\CloudTools\twcserverlist.txt"
+
+        $ServerLastWrite = (get-item $ServerListAge).LastWriteTime
+
+        $timespan = new-timespan -days 30 -hours 0 -minutes 0
+
+        if (((get-date) - $ServerLastWrite) -gt $timespan){
+            # the server list is older than 30 days, regenerate it
+
+            Remove-Item "$env:userprofile\AppData\Local\CloudTools\twcserverlist.txt"
+
+            $DClist = Get-ADDomainController -Filter * -Server $twcdc | Select-Object Hostname
+
+            $mod = 0
+            $DClist | ForEach-Object {
+                $Dclist[$mod] = $Dclist[$mod].hostname
+                $mod++
+            }
+
+            $null | out-file $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+            $DClist >> $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+
+        }
+
+    }else{
+        # gen server list
+        $DClist = Get-ADDomainController -Filter * -Server $twcdc | Select-Object Hostname
+
+        $mod = 0
+        $DClist | ForEach-Object {
+            $Dclist[$mod] = $Dclist[$mod].hostname
+            $mod++
+        }
+
+        $null | out-file $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+        $DClist >> $env:userprofile\AppData\Local\CloudTools\twcserverlist.txt
+
+    }
+}
