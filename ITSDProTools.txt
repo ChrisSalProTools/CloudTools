@@ -1,6 +1,6 @@
 
 Remove-Variable * -ErrorAction SilentlyContinue
-
+$ProGressPreference = 'SilentlyContinue'
 Add-Type -AssemblyName presentationframework
 Add-Type -AssemblyName presentationcore
 
