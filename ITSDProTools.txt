@@ -34,7 +34,7 @@ $testlaunch = $testlaunch | select-string "Name"
 if ($testlaunch -eq $null){
 "#FF205D80" > $env:userprofile\AppData\Local\CloudTools\Background.txt
 "#FFFFFF" > $env:userprofile\AppData\Local\CloudTools\Button.txt
-"#000000" > $env:userprofile\AppData\Local\CloudTools\BackgroundText.txt
+"white" > $env:userprofile\AppData\Local\CloudTools\BackgroundText.txt
 "#000000" > $env:userprofile\AppData\Local\CloudTools\ButtonText.txt
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
 exit
