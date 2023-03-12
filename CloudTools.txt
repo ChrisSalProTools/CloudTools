@@ -2,9 +2,14 @@
 # this file is created to check if ITSDProTools is installed on your system. If not, it will create the necissary files for the program to run. If files are already present, it will simply launch the tool
 
 if (Test-Path "$env:userprofile\Appdata\local\CloudTools"){
+write-output "ITSDProTools installed."
+Write-output "Launching..."
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
+start-process powershell.exe -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
 }else{
 # this code is for when the above test-path fails - meaning the tool is not installed and no config files exist
+Write-output "ITSDProTools not installed."
+Write-output "Generating config files..."
 mkdir $env:userprofile\Appdata\local\CloudTools
 "" | out-file "$env:userprofile\Appdata\local\CloudTools\Background.txt"                                                    # config file for background color
 "" | out-file "$env:userprofile\Appdata\local\CloudTools\Button.txt"                                                        # config file for button color
@@ -13,7 +18,10 @@ mkdir $env:userprofile\Appdata\local\CloudTools
 "" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                                         # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"   # location of notes page initilized
 # this section handles the creation of the server list
-start-process -wait powershell.exe -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
+start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
+Write-output "Finished!"
+Write-output "Launching..."
+start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
 }
 
 exit
