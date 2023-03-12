@@ -1,4 +1,6 @@
 #
+$input = get-content "$env:userprofile\AppData\Local\CloudTools\outfile.txt"
+rm "$env:userprofile\AppData\Local\CloudTools\outfile.txt"
 function set-consolecolor ($bc, $fc) {
 $Host.UI.RawUi.BackgroundColor = $bc
 $Host.Ui.RawUi.foregroundcolor = $fc
@@ -8,7 +10,12 @@ set-consolecolor 'black' 'red'
 
 [console]::windowwidth=45; [console]::windowheight=15; [console]::BufferWidth=[Console]::windowwidth
 
+if($input -eq ""){
 $input = Read-Host -Prompt "Enter CHTR ID"
+}
+if($input -eq $null){
+$input = Read-Host -Prompt "Enter CHTR ID"
+}
 
 $chtrdc = get-content "$env:userprofile\AppData\Local\CloudTools\chtrdc.txt"
 
