@@ -29,6 +29,7 @@ $form.Controls.Add($label)
 
 $form.Topmost = $true
 $form.ShowIcon=$False
+$form.Add_Shown({$form.Activate()})
 $hide = $form.ShowDialog()
 $chtrdc = $textBox.Text
 
