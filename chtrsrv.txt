@@ -20,7 +20,7 @@ if ($newsrvcount -le 5){
     $chtrdc = $chtrpc + ".corp.chartercom.com"
     $testchtr = get-adcomputer $chtrpc -server $chtrdc -properties *
 
-    if ($testchtr -ne $null){
+    if ($testchtr -eq $null){
         # the log on server is offline - you're screwed. Generate a gui to ask for a server manually
         Do{
 
