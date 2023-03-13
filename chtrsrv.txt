@@ -22,7 +22,73 @@ if ($newsrvcount -le 5){
 
     if ($testchtr -eq $null){
         # the log on server is offline - you're screwed. Generate a gui to ask for a server manually
-        # do an invoke web request here!!
+        Do{
+
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = 'Enter DC'
+$form.Size = New-Object System.Drawing.Size(410,150)
+$form.StartPosition = 'CenterScreen'
+
+$OkButton = New-Object System.Windows.Forms.Button
+$OkButton.Location = New-Object System.Drawing.Point(160,65)
+$OkButton.Size = New-Object System.Drawing.Size(75,23)
+$OkButton.Text = 'Ok'
+$OkButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$form.Controls.Add($OkButton)
+
+$textBox = New-Object System.Windows.Forms.TextBox
+$textBox.Location = New-Object System.Drawing.Point(75,36.5)
+$textBox.Size = New-Object System.Drawing.Size(260,20)
+$form.Controls.Add($textBox)
+
+$label = New-Object System.Windows.Forms.Label
+$label.Location = New-Object System.Drawing.Point(5,10)
+$label.Size = New-Object System.Drawing.Size(500,20)
+$label.Text = "Enter a working server FOR THE CHARTER DOMAIN"
+$form.Controls.Add($label)
+
+$form.Topmost = $true
+$form.ShowIcon=$False
+$hide = $form.ShowDialog()
+$chtrdc = $textBox.Text
+
+$chtrdctestthefqdn = $chtrdc.tolower()
+
+if ($chtrdctestthefqdn.contains("corp.chartercom.com")){
+# set the escape variable
+$escape = 1
+}else{
+# the server entered does not contian the domain name at the end
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = 'Invalid!!'
+$form.Size = New-Object System.Drawing.Size(410,200)
+$form.StartPosition = 'CenterScreen'
+
+$OkButton = New-Object System.Windows.Forms.Button
+$OkButton.Location = New-Object System.Drawing.Point(160,105)
+$OkButton.Size = New-Object System.Drawing.Size(75,23)
+$OkButton.Text = 'Ok'
+$OkButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$form.Controls.Add($OkButton)
+
+$label = New-Object System.Windows.Forms.Label
+$label.Location = New-Object System.Drawing.Point(5,10)
+$label.Size = New-Object System.Drawing.Size(500,40)
+$label.Text = "The server you entered does not contain corp.chartercom.com `r`non the end of it"
+$form.Controls.Add($label)
+
+$form.Topmost = $true
+$form.ShowIcon=$False
+$hide = $form.ShowDialog()
+}
+
+}while($escape -ne 1)
     }else{
         # the log on server is online - we can use it to get a working server again
         $chtrdc > $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
