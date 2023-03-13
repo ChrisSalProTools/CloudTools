@@ -22,7 +22,7 @@ if ($testtwc -eq $null){
 
         if ($DClist -ne $null){
             # generation failed - create gui and ask for manaual input
-            start-process powershell.exe -windowstyle normal '$failedlauncher = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/failedtwclauncher.txt" -usebasicparsing; $failedlauncher = $failedlauncher.content; invoke-expression $failedlauncher'
+            start-process powershell.exe -wait -windowstyle normal '$failedlauncher = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/failedtwclauncher.txt" -usebasicparsing; $failedlauncher = $failedlauncher.content; invoke-expression $failedlauncher'
         }else{
             $mod = 0
             $Dclist | ForEach-Object {
