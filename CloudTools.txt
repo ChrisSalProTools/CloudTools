@@ -1,6 +1,18 @@
 #
 # this file is created to check if ITSDProTools is installed on your system. If not, it will create the necissary files for the program to run. If files are already present, it will simply launch the tool
 
+# test if connectivity exists to internal network
+
+Do{
+$connected = ping corp.chartercom.com -n 1
+$connected = $connected | out-string
+if($connected.contains("Reply") -eq $false){
+write-output "Active Directory not reachable yet. Retrying in 10 seconds..."
+start-sleep -seconds 10
+}
+}while($connected.contains("Reply") -eq $false)
+write-output "Connection established..."
+
 if (Test-Path "$env:userprofile\Appdata\local\CloudTools"){
 write-output "ITSDProTools installed."
 Write-output "Launching..."
