@@ -23,6 +23,7 @@ if ($newsrvcount -le 5){
     if ($testchtr -eq $null){
         # the log on server is offline - you're screwed. Generate a gui to ask for a server manually
         start-process powershell.exe -wait -windowstyle normal '$failedlauncher = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/failedchtrlauncher.txt" -usebasicparsing; $failedlauncher = $failedlauncher.content; invoke-expression $failedlauncher'
+        start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
         
     }else{
         # the log on server is online - we can use it to get a working server again
