@@ -19,10 +19,8 @@ if ($newsrvcount -le 5){
     $chtrpc = $lasthope -replace "\\",""
     $chtrdc = $chtrpc + ".corp.chartercom.com"
     $testchtr = get-adcomputer $chtrpc -server $chtrdc -properties *
-    
-#change the below statement back to -eq null
 
-    if ($testchtr -ne $null){
+    if ($testchtr -eq $null){
         # the log on server is offline - you're screwed. Generate a gui to ask for a server manually
         start-process powershell.exe -windowstyle normal '$failedlauncher = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/failedchtrlauncher.txt" -usebasicparsing; $failedlauncher = $failedlauncher.content; invoke-expression $failedlauncher'
         
