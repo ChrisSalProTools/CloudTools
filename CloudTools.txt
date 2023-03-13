@@ -28,6 +28,8 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 "white" | out-file "$env:userprofile\Appdata\local\CloudTools\Button.txt"                                                       # config file for button color
 "#000000" | out-file "$env:userprofile\Appdata\local\CloudTools\ButtonText.txt"                                                 # config file for button text color
 "white" | out-file "$env:userprofile\Appdata\local\CloudTools\BackgroundText.txt"                                               # config file for bacground text color
+0 | out-file "$env:userprofile\AppData\Local\CloudTools\ontop.txt"                                                              # config file for always on top
+0 | out-file "$env:userprofile\AppData\Local\CloudTools\mode.txt"                                                               # config file for compact vs full mode
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
 # this section handles the creation of the server list
