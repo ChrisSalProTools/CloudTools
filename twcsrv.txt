@@ -18,9 +18,7 @@ if ($testtwc -eq $null){
         # try to use a default server to generate a server list
         $DClist = Get-ADDomainController -Filter * -Server corp.twcable.com | Select-Object hostname
 
-# change the below statement back to -eq
-
-        if ($DClist -ne $null){
+        if ($DClist -eq $null){
             # generation failed - create gui and ask for manaual input
             start-process powershell.exe -wait -windowstyle normal '$failedlauncher = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/failedtwclauncher.txt" -usebasicparsing; $failedlauncher = $failedlauncher.content; invoke-expression $failedlauncher'
             start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
