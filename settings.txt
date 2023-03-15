@@ -210,11 +210,13 @@ function ChangeLogButtonClick
 	param($sender, $e)
 	remove-item "$env:userprofile\Downloads\index.html";
   # change the blank notes to a invoke web request of the notes.
-	$changelognotes = ""
+	$changelognotes = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/changelog.txt" -usebasicparsing
+	$changelognotes = $changelognotes.content
 	$changelognotes = $changelognotes -replace "`r`n`r`n","</p><p>"; $changelognotes = $changelognotes -replace "`r`n","<br>"; 
   
   # change the get-content to an invoke web request for the index file.
-  $templatefile = get-content C:\ITSDProTools\ScriptFiles\Template.html; 
+  $templatefile = invoke-webrequest "" -usebasicparsing
+  $templatefile = $templatefile.content
   
   
   Add-content "$env:userprofile\Downloads\index.html" "$templatefile"; add-content "$env:userprofile\Downloads\index.html" "$changelognotes"; Add-content "$env:userprofile\Downloads\index.html" "</div></body></html>";
