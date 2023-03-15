@@ -33,6 +33,10 @@ $form.Add_Shown({$form.Activate()})
 $hide = $form.ShowDialog()
 $chtrdc = $textBox.Text
 
+if($chtrdc -eq ""){
+exit
+}
+
 $chtrdctestthefqdn = $chtrdc.tolower()
 
 if ($chtrdctestthefqdn.contains("corp.chartercom.com")){
@@ -71,7 +75,7 @@ $hide = $form.ShowDialog()
 }else{
 # set the escape variable
 $escape = 1
-$chtrdc > $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+$chtrdc > C:\ITSDProToolsData\ADMFiles\chtrdc.txt
 }
 }else{
 # the server entered does not contian the domain name at the end
