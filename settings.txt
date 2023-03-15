@@ -26,7 +26,9 @@ function Import-Xaml {
 	$ButtonColorChoice = Get-Content C:\ITSDProToolsData\ScriptFiles\Button.txt
 	$ButtonText = get-content "C:\ITSDProToolsData\ScriptFiles\ButtonText.txt"
 	$BackgroundText = get-content "C:\ITSDProToolsData\ScriptFiles\BackgroundText.txt"
-	$xaml = Get-Content -Path $PSScriptRoot\settings.xaml
+	
+	$xaml = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/settingsmenu.txt" -usebasicparsing
+	$xaml = $xmlfile.content
 	$xaml = $xaml -replace "BackgroundColorVar","$BackgroundColorChoice"
 	$xaml = $xaml -replace "ButtonColorVar","$ButtonColorChoice"
 	$xaml = $xaml -replace "ButtonTextVar","$ButtonText"
