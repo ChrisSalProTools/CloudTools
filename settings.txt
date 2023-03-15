@@ -215,7 +215,7 @@ function ChangeLogButtonClick
 	$changelognotes = $changelognotes -replace "`r`n`r`n","</p><p>"; $changelognotes = $changelognotes -replace "`r`n","<br>"; 
   
   # change the get-content to an invoke web request for the index file.
-  $templatefile = invoke-webrequest "" -usebasicparsing
+  $templatefile = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/template.txt" -usebasicparsing
   $templatefile = $templatefile.content
   
   
