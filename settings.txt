@@ -22,11 +22,10 @@ New-Variable -Name 'ChangeLogButton' -Value $window.FindName('ChangeLogButton') 
 [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
 
 function Import-Xaml {
-	$BackgroundColorChoice = Get-Content C:\ITSDProToolsData\ScriptFiles\Background.txt
-	$ButtonColorChoice = Get-Content C:\ITSDProToolsData\ScriptFiles\Button.txt
-	$ButtonText = get-content "C:\ITSDProToolsData\ScriptFiles\ButtonText.txt"
-	$BackgroundText = get-content "C:\ITSDProToolsData\ScriptFiles\BackgroundText.txt"
-	
+	$BackgroundColorChoice = Get-Content "$env:userprofile\AppData\Local\CloudTools\Background.txt"
+	$ButtonColorChoice = Get-Content "$env:userprofile\AppData\Local\CloudTools\Button.txt"
+	$ButtonText = get-content "$env:userprofile\AppData\Local\CloudTools\ButtonText.txt"
+	$BackgroundText = get-content "$env:userprofile\AppData\Local\CloudTools\BackgroundText.txt"
 	$xaml = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/settingsmenu.txt" -usebasicparsing
 	$xaml = $xaml.content
 	$xaml = $xaml -replace "BackgroundColorVar","$BackgroundColorChoice"
@@ -97,7 +96,8 @@ $chtrserverint = $chtrserverint.ToLower()
 $twcserverint = get-content "$env:userprofile\AppData\Local\CloudTools\twcdc.txt"
 $twcserverint = $twcserverint.ToLower()
 $logonserver = $env:LOGONSERVER
-$versionnum = get-content "1.5.3"
+$versionnum = invoke-webrequest -uri "https://raw.githubusercontent.com/ChrisSalProTools/ProToolsUpdateNotiChecker/main/version.txt"
+$versionnum = $versionnum.content
 $version = "ITSD Pro Tools Version " + "$versionnum"
 $perms = get-content "$env:userprofile\AppData\Local\CloudTools\permissions.txt" -raw
 
