@@ -1,0 +1,2 @@
+1.0.1
+Updated tool and worked on settings menu. Settings should now actually change colors and server. only button that doesn't work so far is the permissions section and the open on startup button.
