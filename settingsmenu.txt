@@ -1,0 +1,50 @@
+
+<Window
+
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Settings"
+
+  Title="Settings" Height="675" Width="500" Background="BackgroundColorVar" FontSize="14" FontFamily="Arial" ResizeMode="NoResize">
+
+    <Grid x:Name="SettingsGrid" Width="NaN" Height="665" VerticalAlignment="Top">
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Height="30" Margin="14,585,0,0" VerticalAlignment="Top" Width="122" Foreground="ButtonTextVar" Background="ButtonColorVar" Click="SaveButtonClick"/>
+        <Label x:Name="OnTopLabel" Content="Always On top" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <CheckBox x:Name="OnTopCheckBox" Content="" HorizontalAlignment="Left" Height="14" Margin="145,18,0,0" VerticalAlignment="Top" Width="18" IsChecked="False" Background="ButtonColorVar" Foreground="ButtonTextVar" Checked="OnTopCheckBoxChecked"/>
+        <Label x:Name="CompactLabel" Content="Compact Mode" HorizontalAlignment="Left" Height="30" Margin="10,40,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <CheckBox x:Name="CompactModeCheckBox" Content="CheckBox" HorizontalAlignment="Left" Height="16" Margin="145,47,0,0" VerticalAlignment="Top" Width="18" Background="ButtonColorVar" Foreground="ButtonTextVar" Checked="CompactModeCheckBoxChecked"/>
+        <Label x:Name="OpenOnStartupLabel" Content="Open On Startup" HorizontalAlignment="Left" Height="30" Margin="10,70,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <CheckBox x:Name="OpenOnStartupCheckBox" Content="CheckBox" HorizontalAlignment="Left" Height="16" Margin="145,77,0,0" VerticalAlignment="Top" Width="18" Background="ButtonColorVar" Foreground="ButtonTextVar" Checked="OpenOnStartupCheckBoxChecked"/>
+        <Label x:Name="BackgroundColorLabel" Content="Background Color" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="130" Height="30" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="BackgroundColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="ButtonColorLabel" Content="Button Color" HorizontalAlignment="Left" Height="30" Margin="10,130,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="ButtonColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="BackgroundTextColor" Content="Background Text" HorizontalAlignment="Left" Height="30" Margin="10,160,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="BackgroundTextColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="ButtonTextColorLabel" Content="Button Text" HorizontalAlignment="Left" Height="30" Margin="10,190,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="ButtonTextColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Button x:Name="OptimizeServerListButton" Content="Optimize Servers" HorizontalAlignment="Left" Height="30" Margin="145,321,0,0" VerticalAlignment="Top" Width="122" Background="ButtonColorVar" Foreground="ButtonTextVar" Click="OptimizeServerListButtonClick"/>
+        <Label x:Name="CharterServerLabel" Content="Charter Server" HorizontalAlignment="Left" Height="30" Margin="10,220,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="ChtrServerTextBox" HorizontalAlignment="Left" Margin="145,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="TWCServerLabel" Content="TWC Server" HorizontalAlignment="Left" Height="30" Margin="10,250,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="TWCServerTextBox" HorizontalAlignment="Left" Margin="145,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Height="30" Margin="14,321,0,0" VerticalAlignment="Top" Width="122" Foreground="ButtonTextVar" Background="ButtonColorVar" Click="UpdateButton"/>
+        <Label x:Name="LogOnServerLabelNoOutput" Content="Log-On Server" HorizontalAlignment="Left" Height="30" Margin="10,285,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
+        <Label x:Name="LogOnServerLabelEdit" Content="Online" HorizontalAlignment="Left" Margin="145,285,0,0" VerticalAlignment="Top" Width="300" Height="30" Foreground="BackgroundTextVar"/>
+        <Label x:Name="PermissionsLabel" Content="Permissions to single out:" HorizontalAlignment="Left" Height="30" Margin="10,366,0,0" VerticalAlignment="Top" Width="189" Foreground="BackgroundTextVar"/>
+        <TextBox x:Name="PermissionsTextBox" HorizontalAlignment="Left" Height="168" Margin="14,396,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="428" Background="ButtonColorVar" Foreground="ButtonTextVar" AcceptsReturn="True"/>
+        <Label x:Name="VersionLabel" Content="ITSD Pro Tools Version 5.0.1" Height="30" Margin="168,10,0,0" VerticalAlignment="Top" Width="277" Foreground="BackgroundTextVar" HorizontalAlignment="Left" HorizontalContentAlignment="Right"/>
+        <Button x:Name="ChangeLogButton" Content="" HorizontalAlignment="Left" Height="14" Margin="261,18,0,0" VerticalAlignment="Top" Width="181" Click="ChangeLogButtonClick" Opacity="0">
+            <Button.Foreground>
+                <SolidColorBrush Color="Black" Opacity="0"/>
+            </Button.Foreground>
+            <Button.BorderBrush>
+                <SolidColorBrush Color="#FF707070" Opacity="0"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <SolidColorBrush Color="White" Opacity="0"/>
+            </Button.Background>
+        </Button>
+    </Grid>
+
+</Window>
