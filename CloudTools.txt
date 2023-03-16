@@ -34,7 +34,7 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
 
 # hard coded path must exist for desktop shortcut to work properly
-mkdir C:\ITSDProTools\CloudTools
+mkdir C:\ITSDProTools\CloudTools | out-null
 
 # download icon
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile C:\ITSDProTools\CloudTools\ITSDProTools.ico
