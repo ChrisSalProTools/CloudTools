@@ -6,7 +6,7 @@ Add-Type -AssemblyName presentationcore
 
 $compactmodepref = Get-content $env:userprofile\AppData\Local\CloudTools\mode.txt
 
-if($compactmodpref -eq 1){
+if($compactmodepref -eq 1){
 $xmlurl = "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/compact.txt"
 }else{
 $xmlurl = "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/full.txt"
