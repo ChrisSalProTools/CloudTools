@@ -57,6 +57,30 @@ $itsdform.BsamButton.add_Click({
 })
 
 $itsdform.PermissionsButton.add_Click({
+$chtrdc = get-content $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+remove-item "$env:userprofile\Downloads\index.html"; 
+$User = $itsdform.inputBox.text
+$itsdform.inputBox.text = ""
+$Permissions = get-content $env:userprofile\AppData\Local\CloudTools\permissions.txt
+$Member = get-aduser $User -server $chtrdc -properties * | select-object -expandproperty memberof
+$mod = 0
+$Member | foreach-object {
+$Member[$mod] = $Member[$mod] | out-string
+$Member[$mod] = $Member[$mod].split("=")
+$Member[$mod] = $Member[$mod].split(",")
+$Member[$mod] = $Member[$mod][1]
+$mod++
+}
+$VpnMember = $Member | select-string -Pattern $Permissions
+$html = $VpnMember | ForEach-Object {
+$_,'<br>'
+}
+$MemberFormat = $Member | ForEach-Object {
+    $_,'<br>'
+}
+$template = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/template.txt" -usebasicparsing
+$template = $template.content
+add-content "$env:userprofile\Downloads\index.html" "$template"; Add-content "$env:userprofile\Downloads\index.html" "$html"; Add-content "$env:userprofile\Downloads\index.html" "</p><p>All of the permissions on the account:<br><br> $MemberFormat"; Add-content "$env:userprofile\Downloads\index.html" "</p></div></body></html>"; start-sleep -seconds 1; start-process "$env:userprofile\Downloads\index.html"; $html = ""; $VpnMember = ""
 })
 
 $itsdform.VerifyButton.add_Click({
