@@ -39,7 +39,6 @@ function Import-Xaml {
 	$xaml.SelectNodes("//*[@x:Name='OnTopCheckBox']", $manager)[0].RemoveAttribute('Checked')
 	$xaml.SelectNodes("//*[@x:Name='CompactModeCheckBox']", $manager)[0].RemoveAttribute('Checked')
 	$xaml.SelectNodes("//*[@x:Name='OpenOnStartupCheckBox']", $manager)[0].RemoveAttribute('Checked')
-	$xaml.SelectNodes("//*[@x:Name='OptimizeServerListButton']", $manager)[0].RemoveAttribute('Click')
 	$xaml.SelectNodes("//*[@x:Name='SaveButton']", $manager)[0].RemoveAttribute('Click')
 	$xaml.SelectNodes("//*[@x:Name='UpdateButton']", $manager)[0].RemoveAttribute('Click')
 	$xaml.SelectNodes("//*[@x:Name='ChangeLogButton']", $manager)[0].RemoveAttribute('Click')
@@ -48,10 +47,6 @@ function Import-Xaml {
 }
 
 function Set-EventHandler {
-	$OptimizeServerListButton.add_Click({
-		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
-		OptimizeServerListButtonClick -sender $sender -e $e
-	})
 	$SaveButton.add_Click({
 		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
 		SaveButtonClick -sender $sender -e $e
@@ -111,14 +106,6 @@ $TWCServerTextBox.text = $twcserverint
 $LogOnServerLabelEdit.content = $logonserver
 $VersionLabel.content = $version
 $PermissionsTextBox.text = $perms
-
-
-function OptimizeServerListButtonClick
-{
-	param($sender, $e)
-	# pull and run the optimize script
-}
-
 
 function SaveButtonClick
 {
