@@ -78,4 +78,10 @@ exit
 
 #======================================================================================
 #OnTop
+$ontop = get-content $env:userprofile\AppData\Local\CloudTools\ontop.txt
+
+if ($ontop -eq 1){
+$itsdform.ProToolsWindow.topmost="True"
+}
+
 $itsdform.ProToolsWindow.ShowDialog() | out-null
