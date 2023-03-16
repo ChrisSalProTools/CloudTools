@@ -43,11 +43,11 @@ Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main
 $launch = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/launcher.txt" -UseBasicParsing; $launch = $launch.content; $launch | out-file C:\ITSDProTools\CloudTools\launcher.ps1
 
 # download shortcut
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSD Pro Tools.lnk"
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSD Pro Tools (Cloud).lnk"
 
 # copy to desktop
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
-copy-item 'C:\ITSDProTools\CloudTools\ITSD Pro Tools.lnk' $DesktopPath
+copy-item 'C:\ITSDProTools\CloudTools\ITSD Pro Tools (Cloud).lnk' $DesktopPath
 
 # this section handles the creation of the server list
 Write-output "Generating CHTR server list..."
