@@ -32,6 +32,11 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 0 | out-file "$env:userprofile\AppData\Local\CloudTools\mode.txt"                                                               # config file for compact vs full mode
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
+"AP-VPN" > "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
+"AP-VPN-FieldOps-Employees" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
+"AP-VPN-FieldOps-Contractors" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
+"RG-VPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
+"RG-NACVPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 
 # hard coded path must exist for desktop shortcut to work properly
 mkdir C:\ITSDProTools\CloudTools | out-null
