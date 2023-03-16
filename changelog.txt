@@ -1,3 +1,6 @@
+1.0.4
+Permissions list now shows in settings - permission button on main tool yet to work. 
+
 1.0.3
 Always on top button in settings now works
 
