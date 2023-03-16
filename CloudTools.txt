@@ -37,13 +37,13 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 mkdir C:\ITSDProTools\CloudTools | out-null
 
 # download icon
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile C:\ITSDProTools\CloudTools\ITSDProTools.ico
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSDProTools.ico"
 
 # create launcher script
 $launch = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/launcher.txt" -UseBasicParsing; $launch = $launch.content; $launch | out-file C:\ITSDProTools\CloudTools\launcher.ps1
 
 # download shortcut
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile C:\ITSDProTools\CloudTools\ITSD Pro Tools.lnk
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSD Pro Tools.lnk"
 
 # copy to desktop
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
