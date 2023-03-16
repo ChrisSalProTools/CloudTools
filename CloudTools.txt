@@ -33,6 +33,8 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile $env:USERPROFILE\AppData\Local\CloudTools\ITSDProTools.ico                                                                      # .ico file needs to exist on local PC
+$launch = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/launcher.txt" -UseBasicParsing; $launch = $launch.content; $launch | out-file $env:USERPROFILE\AppData\Local\CloudTools\launcher.ps1                                                                 # launch script downloaded
+
 # this section handles the creation of the server list
 Write-output "Generating CHTR server list..."
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
