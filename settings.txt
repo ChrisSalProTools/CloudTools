@@ -180,6 +180,7 @@ function SaveButtonClick
 		$twcserver > "$env:userprofile\AppData\Local\CloudTools\twcdc.txt"
 	}
 	if($newperms -ne $perms){
+	$newperms = $newperms -replace "`r`n",""
 		$newperms > "$env:userprofile\AppData\Local\CloudTools\permissions.txt"
 	}
 
