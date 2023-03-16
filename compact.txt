@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BSAM"
         mc:Ignorable="d"
-        Title="ITSD Pro Tools" Height="177" Width="184" Background="BackgroundColorVar">
+        Title="ITSD Pro Tools" Height="177" Width="184" Background="BackgroundColorVar" ResizeMode="NoResize">
     <Grid x:Name="ITSD_Pro_Tools" Margin="0,0,-4,0" Height="138" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
