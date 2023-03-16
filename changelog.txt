@@ -1,3 +1,6 @@
+1.0.3
+Always on top button in settings now works
+
 1.0.2
 Added creation of desktop shortcut when tool is run
 the button open on startup in the settings menu now works as well.
