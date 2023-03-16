@@ -32,8 +32,21 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 0 | out-file "$env:userprofile\AppData\Local\CloudTools\mode.txt"                                                               # config file for compact vs full mode
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile $env:USERPROFILE\AppData\Local\CloudTools\ITSDProTools.ico                                                                      # .ico file needs to exist on local PC
-$launch = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/launcher.txt" -UseBasicParsing; $launch = $launch.content; $launch | out-file $env:USERPROFILE\AppData\Local\CloudTools\launcher.ps1                                                                 # launch script downloaded
+
+# hard coded path must exist for desktop shortcut to work properly
+mkdir C:\ITSDProTools\CloudTools
+
+# download icon
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile C:\ITSDProTools\CloudTools\ITSDProTools.ico
+
+# create launcher script
+$launch = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/launcher.txt" -UseBasicParsing; $launch = $launch.content; $launch | out-file C:\ITSDProTools\CloudTools\launcher.ps1
+
+# download shortcut
+Invoke-WebRequest -Uri "" -outfile C:\ITSDProTools\CloudTools\ITSDProTools.lnk
+
+# copy to desktop
+
 
 # this section handles the creation of the server list
 Write-output "Generating CHTR server list..."
