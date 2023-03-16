@@ -80,7 +80,7 @@ $compact = get-content "$env:userprofile\AppData\Local\CloudTools\mode.txt"
 if($compact -eq "1"){
 	$CompactModeCheckBox.ischecked = $true
 }
-if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools.lnk"){
+if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools (Cloud).lnk"){
 	# file exists in startup folder
 	$OpenOnStartupCheckBox.ischecked = $true
 }
@@ -152,15 +152,16 @@ function SaveButtonClick
 
 	if($OpenOnStartupCheckBox.ischecked){
 		#make the tool open on startup
-		if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools.lnk"){
+		if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools (Cloud).lnk"){
 			# file exists in startup folder
 		}else{
 			# file does not exist in startup folder - fix this here
 			# this is the section where it would actually build a script to open on startup
+			copy-item "C:\ITSDProTools\CloudTools\ITSD Pro Tools (Cloud).lnk" "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 		}
 	}else{
-		if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools.lnk"){
-			rm "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools.lnk"
+		if(test-path "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools (Cloud).lnk"){
+			rm "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\ITSD Pro Tools (Cloud).lnk"
 		}
 	}
 	$chtrserver = $ChtrServerTextBox.text
