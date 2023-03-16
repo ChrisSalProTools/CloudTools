@@ -4,8 +4,16 @@ $ProGressPreference = 'SilentlyContinue'
 Add-Type -AssemblyName presentationframework
 Add-Type -AssemblyName presentationcore
 
+$compactmodepref = Get-content $env:userprofile\AppData\Local\CloudTools\mode.txt
+
+if($compactmodpref -eq 1){
+$xmlurl = "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/compact.txt"
+}else{
+$xmlurl = "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/full.txt"
+}
+
 $itsdform = @{}
-$xmlfile = Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/full.txt" -usebasicparsing
+$xmlfile = Invoke-webrequest "$xmlurl" -usebasicparsing
 $xmlfile = $xmlfile.content
 $BackgroundColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Background.txt
 $ButtonColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Button.txt
