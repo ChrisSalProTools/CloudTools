@@ -27,7 +27,6 @@
         <TextBox x:Name="ChtrServerTextBox" HorizontalAlignment="Left" Margin="145,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
         <Label x:Name="TWCServerLabel" Content="TWC Server" HorizontalAlignment="Left" Height="30" Margin="10,250,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
         <TextBox x:Name="TWCServerTextBox" HorizontalAlignment="Left" Margin="145,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
-        <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Height="30" Margin="14,321,0,0" VerticalAlignment="Top" Width="122" Foreground="ButtonTextVar" Background="ButtonColorVar" Click="UpdateButton"/>
         <Label x:Name="LogOnServerLabelNoOutput" Content="Log-On Server" HorizontalAlignment="Left" Height="30" Margin="10,285,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
         <Label x:Name="LogOnServerLabelEdit" Content="Online" HorizontalAlignment="Left" Margin="145,285,0,0" VerticalAlignment="Top" Width="300" Height="30" Foreground="BackgroundTextVar"/>
         <Label x:Name="PermissionsLabel" Content="Permissions to single out:" HorizontalAlignment="Left" Height="30" Margin="10,366,0,0" VerticalAlignment="Top" Width="189" Foreground="BackgroundTextVar"/>
