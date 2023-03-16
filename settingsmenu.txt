@@ -22,7 +22,6 @@
         <TextBox x:Name="BackgroundTextColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
         <Label x:Name="ButtonTextColorLabel" Content="Button Text" HorizontalAlignment="Left" Height="30" Margin="10,190,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
         <TextBox x:Name="ButtonTextColorTextBox" HorizontalAlignment="Left" Height="20" Margin="145,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
-        <Button x:Name="OptimizeServerListButton" Content="Optimize Servers" HorizontalAlignment="Left" Height="30" Margin="145,321,0,0" VerticalAlignment="Top" Width="122" Background="ButtonColorVar" Foreground="ButtonTextVar" Click="OptimizeServerListButtonClick"/>
         <Label x:Name="CharterServerLabel" Content="Charter Server" HorizontalAlignment="Left" Height="30" Margin="10,220,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
         <TextBox x:Name="ChtrServerTextBox" HorizontalAlignment="Left" Margin="145,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
         <Label x:Name="TWCServerLabel" Content="TWC Server" HorizontalAlignment="Left" Height="30" Margin="10,250,0,0" VerticalAlignment="Top" Width="130" Foreground="BackgroundTextVar"/>
