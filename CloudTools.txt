@@ -3,6 +3,9 @@
 
 # test if connectivity exists to internal network
 
+# I don't want you to be able to see all the web requests being pulled - it just looks nicer if it looks like it's doing everything by magic :) 
+$ProGressPreference = 'SilentlyContinue'
+
 Do{
 $connected = ping corp.chartercom.com -n 1
 $connected = $connected | out-string
