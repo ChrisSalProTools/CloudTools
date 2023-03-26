@@ -181,6 +181,15 @@ function SaveButtonClick
 	}
 	if($newperms -ne $perms){
 		$newperms > "$env:userprofile\AppData\Local\CloudTools\permissions.txt"
+		$cleanupperms = get-content "$env:userprofile\AppData\Local\CloudTools\permissions.txt"
+		$mod = 0
+		$cleanupperms | foreach {
+		if($_ -eq ""){
+		$cleanupperms[$mod] = $null
+		}
+		$mod++
+		}
+$cleanupperms | out-file "$env:userprofile\AppData\Local\CloudTools\permissions.txt"
 	}
 
 	exit
