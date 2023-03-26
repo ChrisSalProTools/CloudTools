@@ -45,7 +45,7 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "$env:userprofile\appdata\local\CloudTools\ITSDProTools.ico"
 
 # download shortcut
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "$env:userprofile\AppData\local\ITSD Pro Tools (Cloud).lnk"
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "$env:userprofile\AppData\local\CloudTools\ITSD Pro Tools (Cloud).lnk"
 
 # copy to desktop
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
