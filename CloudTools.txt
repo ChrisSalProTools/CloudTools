@@ -41,18 +41,15 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 "RG-VPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "RG-NACVPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 
-# hard coded path must exist for desktop shortcut to work properly
-mkdir C:\ITSDProTools\CloudTools | out-null
-
 # download icon
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSDProTools.ico"
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "$env:userprofile\appdata\local\CloudTools\ITSDProTools.ico"
 
 # download shortcut
-Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "C:\ITSDProTools\CloudTools\ITSD Pro Tools (Cloud).lnk"
+Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "$env:userprofile\AppData\local\ITSD Pro Tools (Cloud).lnk"
 
 # copy to desktop
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
-copy-item 'C:\ITSDProTools\CloudTools\ITSD Pro Tools (Cloud).lnk' $DesktopPath
+copy-item '$env:userprofile\appdata\local\ITSD Pro Tools (Cloud).lnk' $DesktopPath
 
 # this section handles the creation of the server list
 Write-output "Generating CHTR server list..."
