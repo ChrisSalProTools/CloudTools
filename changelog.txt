@@ -1,3 +1,7 @@
+1.1.0
+Added linking function to notes page to match desktop version.
+To make a link clickable from your notes results page when you do a search, simply include TWO asterisk symbols to the start or end of the link when adding the link to the page using the add note button.
+
 1.0.9
 Added functionality to the Add notes button.
 
