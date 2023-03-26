@@ -1,2 +1,0 @@
-# this file launches ITSD Pro Tools (cloud)
-$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CloudTools.txt" -usebasicparsing; $run = $run.content; invoke-expression $run
