@@ -1,3 +1,9 @@
+1.0.7
+Fixed change log button to display accurately. 
+Fixed installer so it works completely out of the appdata folder and doesn't create launchers anywhere else
+Fixed launcher so that it doesn't need a launcher.ps1 file to work
+Fixed laumcher so it references the .ico file in the appdata folder rather than having to make a new folder on the C:\ drive.
+
 1.0.6
 Permissions button now works
 
