@@ -1,3 +1,8 @@
+1.0.8
+Fixed the permissions in the settings menu to match the change made on the desktop version 1.5.5
+Here are the notes from that update:
+Fixed bug where permissions could build up extra new lines at the end of the file causing permissions to fail to show after adding permissions to check for. - now when you edit the permissions, it double checks everything and removes any extra lines from the end of the file.
+
 1.0.7
 Fixed change log button to display accurately. 
 Fixed installer so it works completely out of the appdata folder and doesn't create launchers anywhere else
