@@ -2,6 +2,7 @@
 Fixed the permissions in the settings menu to match the change made on the desktop version 1.5.5
 Here are the notes from that update:
 Fixed bug where permissions could build up extra new lines at the end of the file causing permissions to fail to show after adding permissions to check for. - now when you edit the permissions, it double checks everything and removes any extra lines from the end of the file.
+added automatic ipconfig /flushdns to launch script if ping fails.
 
 1.0.7
 Fixed change log button to display accurately. 
