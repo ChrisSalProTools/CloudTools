@@ -11,6 +11,7 @@ $connected = ping corp.chartercom.com -n 1
 $connected = $connected | out-string
 if($connected.contains("Reply") -eq $false){
 write-output "Active Directory not reachable yet. Retrying in 10 seconds..."
+ipconfig /flushdns | out-null
 start-sleep -seconds 10
 }
 }while($connected.contains("Reply") -eq $false)
