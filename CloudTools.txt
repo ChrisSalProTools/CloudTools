@@ -41,6 +41,9 @@ mkdir $env:userprofile\Appdata\local\CloudTools | out-null
 "RG-VPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "RG-NACVPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 
+# to copy to desktop, this must be run from the folder where it's being copied from. 
+cd $env:userprofile\AppData\Local\CloudTools
+
 # download icon
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "$env:userprofile\appdata\local\CloudTools\ITSDProTools.ico"
 
@@ -49,7 +52,7 @@ Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main
 
 # copy to desktop
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
-copy-item "$env:userprofile\AppData\local\ITSD Pro Tools (Cloud).lnk" $DesktopPath
+copy-item "$env:userprofile\AppData\local\CloudTools\ITSD Pro Tools (Cloud).lnk" $DesktopPath
 
 # this section handles the creation of the server list
 Write-output "Generating CHTR server list..."
