@@ -199,18 +199,25 @@ function ChangeLogButtonClick
 {
 	param($sender, $e)
 	remove-item "$env:userprofile\Downloads\index.html";
-  # change the blank notes to a invoke web request of the notes.
-	$changelognotes = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/changelog.txt" -usebasicparsing
-	$changelognotes = $changelognotes.content
-	$changelognotes = $changelognotes -replace "`r`n`r`n","</p><p>"; $changelognotes = $changelognotes -replace "`r`n","<br>"; 
-  
-  # change the get-content to an invoke web request for the index file.
-  $templatefile = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/template.txt" -usebasicparsing
-  $templatefile = $templatefile.content
-  
-  
-  Add-content "$env:userprofile\Downloads\index.html" "$templatefile"; add-content "$env:userprofile\Downloads\index.html" "$changelognotes"; Add-content "$env:userprofile\Downloads\index.html" "</div></body></html>";
-	start-process $env:userprofile\Downloads\index.html
+
+$changelognotes = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/changelog.txt" -usebasicparsing
+$changelognotes = $changelognotes.content
+$changelognotes = $changelognotes.split("`r`n")
+
+$mod = 0
+$changelognotes | foreach {
+if($_ -eq ""){
+$changelognotes[$mod] = "</p><p>"
+}else{
+$changelognotes[$mod] = $_ + "<br>"
+}
+$mod++
+}
+$templatefile = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/template.txt" -usebasicparsing
+$templatefile = $templatefile.content
+Add-content "$env:userprofile\Downloads\index.html" "$templatefile"; add-content "$env:userprofile\Downloads\index.html" "$changelognotes"; Add-content "$env:userprofile\Downloads\index.html" "</div></body></html>";
+start-process $env:userprofile\Downloads\index.html
+
 }
 
 $ontoptest = get-content $env:userprofile\AppData\Local\CloudTools\ontop.txt
