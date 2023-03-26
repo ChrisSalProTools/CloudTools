@@ -62,8 +62,10 @@ function Add-ControlVariables {
         $note = $NotesTextBox.text
         $note = $note | Out-String
         $note = $note.replace("*","")
-        $note = $note -replace "`r`n`r`n","`r`n"
-        $note = $note -replace "`r`n`r`n","`r`n"
+Do{
+$note = $note -replace "`r`n`r`n","`r`n"
+$note = $note -replace "`r`n`r`n","`r`n"
+}while($note.contains("`r`n`r`n"))
         Add-Content $location $note
         exit
     }
