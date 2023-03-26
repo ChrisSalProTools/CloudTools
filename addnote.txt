@@ -61,7 +61,21 @@ function Add-ControlVariables {
         $location = Get-Content "$env:userprofile\AppData\Local\CloudTools\Location.txt"
         $note = $NotesTextBox.text
         $note = $note | Out-String
-        $note = $note.replace("*","")
+	$split = $note.split("")
+	$split | foreach {
+	if($_.contains("**")){
+	$raw = $_
+	$clean = $_
+	$clean = $clean.replace("**","")
+if($clean.contains("http") -or $clean.contains("https")){
+$link = '<a href="' + $clean + '">' + $clean + '</a>'
+}else{
+$link = '<a href="' + 'https://' + $clean + '">' + $clean + '</a>'
+}
+	$note = $note.replace("$raw","$link")
+	}
+	}
+	$note = $note.replace("*","")
 Do{
 $note = $note -replace "`r`n`r`n","`r`n"
 $note = $note -replace "`r`n`r`n","`r`n"
