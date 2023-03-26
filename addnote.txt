@@ -1,0 +1,77 @@
+# this is the script which will allow you to add a new note to your additional notes page
+$xaml = '<Window
+
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Canvas"
+
+Title="Add Note" Height="465" Width="550" Background="BackgroundColorVar" Foreground="ButtonColorVar" FontFamily="Arial" FontSize="14">
+
+  <Grid Height="455" Width="NaN" VerticalAlignment="Top">
+      <Label x:Name="LabelTop" Content="Add a note to your additional notes page" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="500" Foreground="BackgroundTextVar"/>
+      <TextBox x:Name="NotesTextBox" HorizontalAlignment="Center" Height="320" Margin="0,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Background="ButtonColorVar" Foreground="ButtonTextVar" AcceptsReturn="True" AcceptsTab="True"/>
+      <Grid x:Name="AlignmentGrid" HorizontalAlignment="Center" Height="30" Margin="0,378,0,0" VerticalAlignment="Top" Width="500">
+          <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="100" Background="ButtonColorVar" Foreground="ButtonTextVar" Click="SubmitButtonClick"/>
+      </Grid>
+  </Grid>
+
+</Window>'
+function Add-ControlVariables {
+	
+    New-Variable -Name 'NotesTextBox' -Value $window.FindName('NotesTextBox') -Scope 1 -Force	
+    New-Variable -Name 'SubmitButton' -Value $window.FindName('SubmitButton') -Scope 1 -Force
+    }
+    
+    [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
+    
+    function Import-Xaml {
+	$BackgroundColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Background.txt
+  $ButtonColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Button.txt
+  $BackgroundText = get-content $env:userprofile\AppData\Local\CloudTools\BackgroundText.txt
+  $ButtonText = get-content $env:userprofile\AppData\Local\CloudTools\ButtonText.txt
+	$xaml = $xaml -replace "BackgroundColorVar","$BackgroundColorChoice"
+	$xaml = $xaml -replace "ButtonColorVar","$ButtonColorChoice"
+	$xaml = $xaml -replace "ButtonTextVar","$ButtonText"
+	$xaml = $xaml -replace "BackgroundTextVar","$BackgroundText"
+        [xml]$xaml = $xaml
+        $manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml.NameTable
+        $manager.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml");
+        $xaml.SelectNodes("//*[@x:Name='SubmitButton']", $manager)[0].RemoveAttribute('Click')
+        $xamlReader = New-Object System.Xml.XmlNodeReader $xaml
+        [Windows.Markup.XamlReader]::Load($xamlReader)
+    }
+    
+    function Set-EventHandler {
+    
+        $SubmitButton.add_Click({
+            param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+            SubmitButtonClick -sender $sender -e $e
+        })
+    }
+    
+    $window = Import-Xaml
+    Add-ControlVariables
+    Set-EventHandler
+    
+    
+    function SubmitButtonClick
+    {
+        param($sender, $e)
+        # code that is run when the submit button is pressed
+        $location = Get-Content "$env:userprofile\AppData\Local\CloudTools\Location.txt"
+        $note = $NotesTextBox.text
+        $note = $note | Out-String
+        $note = $note.replace("*","")
+        $note = $note -replace "`r`n`r`n","`r`n"
+        $note = $note -replace "`r`n`r`n","`r`n"
+        Add-Content $location $note
+        exit
+    }
+    
+$ontop = get-content "$env:userprofile\AppData\Local\CloudTools\ontop.txt"
+
+if ($ontop -eq 1){
+$window.topmost="True"
+}
+
+    $window.ShowDialog()
