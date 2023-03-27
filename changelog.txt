@@ -1,3 +1,6 @@
+1.1.1
+Begun work on the backup ticket button. the initial backup ticket launcher works and the "archive CSV" button works as well.
+
 1.1.0
 Added linking function to notes page to match desktop version.
 To make a link clickable from your notes results page when you do a search, simply include TWO asterisk symbols to the start or end of the link when adding the link to the page using the add note button.
