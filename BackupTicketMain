@@ -1,0 +1,129 @@
+$xaml = '<Window
+
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="MainWindow"
+
+  Title="Backup Ticket Form" Height="154" Width="360" Background="BackgroundColorVar">
+
+    <Grid x:Name="BackupTicketForm" SnapsToDevicePixels="True" Margin="0,0,0,-6">
+
+        <Button x:Name="NewTicket" Content="New Incident" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Height="28" Background="ButtonColorVar" Foreground="ButtonTextVar" Click="NewTicket"/>
+        <Button x:Name="SaveButton" Content="Archive CSV" HorizontalAlignment="Center" Height="27" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="ButtonColorVar" Foreground="ButtonTextVar" Margin="0,76,0,0" Click="SaveCSV"/>
+        <Button x:Name="ReadButton" Content="Read Tickets" HorizontalAlignment="Center" Height="28" Margin="0,43,0,0" VerticalAlignment="Top" Width="160" Background="ButtonColorVar" Foreground="ButtonTextVar" FontFamily="Arial" FontSize="14" Click="ReadTickets"/>
+
+    </Grid>
+
+</Window>'
+
+function Add-ControlVariables {
+	
+New-Variable -Name 'NewTicket' -Value $window.FindName('NewTicket') -Scope 1 -Force	
+New-Variable -Name 'ReadButton' -Value $window.FindName('ReadButton') -Scope 1 -Force	
+New-Variable -Name 'SaveButton' -Value $window.FindName('SaveButton') -Scope 1 -Force	
+}
+
+[System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
+
+function Import-Xaml {
+	$BackgroundColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Background.txt
+  $ButtonColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Button.txt
+  $BackgroundText = get-content $env:userprofile\AppData\Local\CloudTools\BackgroundText.txt
+  $ButtonText = get-content $env:userprofile\AppData\Local\CloudTools\ButtonText.txt
+	$xaml = $xaml -replace "BackgroundColorVar","$BackgroundColorChoice"
+	$xaml = $xaml -replace "ButtonColorVar","$ButtonColorChoice"
+	$xaml = $xaml -replace "ButtonTextVar","$ButtonText"
+	$xaml = $xaml -replace "BackgroundTextVar","$BackgroundText"
+  [xml]$xaml = $xaml
+	$manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml.NameTable
+	$manager.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml");
+	$xaml.SelectNodes("//*[@x:Name='NewTicket']", $manager)[0].RemoveAttribute('Click')
+	$xaml.SelectNodes("//*[@x:Name='ReadButton']", $manager)[0].RemoveAttribute('Click')
+	$xaml.SelectNodes("//*[@x:Name='SaveButton']", $manager)[0].RemoveAttribute('Click')
+	$xamlReader = New-Object System.Xml.XmlNodeReader $xaml
+	[Windows.Markup.XamlReader]::Load($xamlReader)
+}
+
+function Set-EventHandler {
+
+	$NewTicket.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		NewTicket -sender $sender -e $e
+	})
+	$ReadButton.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		ReadTickets -sender $sender -e $e
+	})
+	$SaveButton.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		SaveCSV -sender $sender -e $e
+	})
+}
+
+$window = Import-Xaml
+
+
+
+
+
+Add-ControlVariables
+Set-EventHandler
+
+function NewTicket
+{
+	param($sender, $e)
+	# code that will execute when the "new ticket" button is pressed
+}
+
+
+function ReadTickets
+{
+	param($sender, $e)
+	# code that will execute when the "read tickets" button is pressed
+}
+
+
+function SaveCSV
+{
+	param($sender, $e)
+	# code that will execute when the "save CSV" button is pressed
+	$timestamp = Get-Date -Format "MMddyyyy-HHmmss"; $timestamp = $timestamp + ".csv"
+	rename-item -path "$env:userprofile\AppData\Local\CloudTools\SavedTickets\workingTickets.csv" -NewName $timestamp
+	Move-Item "$env:userprofile\AppData\Local\CloudTools\SavedTickets\$timestamp" "$env:userprofile\AppData\Local\CloudTools\SavedTickets\Archived"
+	
+
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+$Form = New-Object System.Windows.Forms.Form
+$Form.Text = 'CSV saved!'
+$Form.Size = New-Object System.Drawing.Size(500,250)
+$Form.StartPosition = 'CenterScreen'
+
+$label = New-Object System.Windows.Forms.Label
+$label.Location = New-Object System.Drawing.Point(5,5)
+$label.Size = New-Object System.Drawing.Size(800,70)
+$label.Text = "Your CSV was moved to the archived folder `r`nwith the name $timestamp"
+$label.font = New-Object System.Drawing.Font("Arial",14,[System.Drawing.Fontstyle]::regular)
+$form.Controls.Add($label)
+
+$okButton = New-Object System.Windows.Forms.Button
+$okButton.Location = New-Object System.Drawing.Point(5,90)
+$okButton.Size = New-Object System.Drawing.Size(75,25)
+$okButton.Text = 'OK'
+$okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$form.AcceptButton = $okButton
+$form.controls.add($okbutton)
+
+$form.Topmost = $true
+$form.ShowIcon=$False
+$Result = $form.ShowDialog()
+}
+
+$ontop = get-content "$env:userprofile\AppData\Local\CloudTools\ontop.txt"
+
+if ($ontop -eq 1){
+$window.topmost="True"
+}
+
+$window.ShowDialog()
