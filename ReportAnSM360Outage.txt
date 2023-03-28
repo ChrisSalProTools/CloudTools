@@ -1,0 +1,26 @@
+========================================
+Spectrum Mobile Outage
+========================================
+Summary of Issue: 
+URL or Application Name: Spectrum Mobile
+Username/Login ID:
+FULL ERROR MESSAGE (REUIQUIRED): 
+When did the issue last work as expected? 
+Number of Users Impacted? 
+How are you connected to the network? 
+Troubleshooting / Escalation Actions Taken including any workarounds (Include Screenshots as Attachments): 
+========================================
+Spectrum Mobile Additional Information
+========================================
+Subscriber Number(s) reporting the issue:
+Is this a retail store?:
+What system is being used (Retail UI, Zendesk or SM360)?:
+Is issue occuring in Mobile 2.0: 
+========================================
+User Information
+========================================
+Contact Phone Number: 
+Best Method of Contact: 
+Full Address of Location Impacted: 
+Computer Name or Asset Tag Number: 
+IP Address:
