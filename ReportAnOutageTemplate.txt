@@ -1,0 +1,46 @@
+========================================
+Standard Issue Information
+========================================
+Summary of Issue: 
+URL or Application Name: 
+Username/Login ID:
+User Verification (Make sure to verify both the NetIQ questions and Symantec VIP Credential ID)?
+Error Received: 
+When did the issue last work as expected? 
+Number of Users Impacted? 
+How are you connected to the network? 
+Can this be duplicated by the Support Desk?
+Troubleshooting / Escalation Actions Taken including any workarounds (Include Screenshots as Attachments): 
+========================================
+User Information
+========================================
+Contact Phone Number: 
+Best Method of Contact: 
+Full Address of Location Impacted: 
+Computer Name or Asset Tag Number: 
+IP Address:
+========================================
+Billing Outage Additional Information
+========================================
+Error message received by IT Support Desk completing steps to access program:
+Example Account Numbers for billing outages affecting customer accounts (at least 1, 2 is preferred):
+Associate Usernames for logging into the program:
+========================================
+Application Outage Additional Information
+========================================
+Error message received by IT Support Desk completing steps to access program:
+Associate Usernames for logging into the program:
+========================================
+Network/Internet Outage
+========================================
+How many people are in the office are affected?
+How many people in total are in the office?
+Any power outages/surges? Is power currently on?
+Any recent maintenance/work/construction done locally?
+Is the problem intermittent?
+What is the type of connectivity to the network?
+Are you able to connect when connected with a network cable?
+IPCONFIG information:
+ - IP Address
+ - Default Gateway
+ - Can help desk ping the default gateway?
