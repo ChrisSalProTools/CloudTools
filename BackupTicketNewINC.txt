@@ -403,6 +403,18 @@ $window = Import-Xaml
 Add-ControlVariables
 Set-EventHandler
 
+# get the templates upon launch rather than every time the drop down is closed. This increases apparent performance
+
+$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate1.txt" -Raw
+$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate2.txt" -Raw
+$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate3.txt" -Raw
+$Nactemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/NacVPNTroubleShootingTemplate.txt" -usebasicparsing).content
+$PWRStemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/PasswordResetTemplate.txt" -usebasicparsing).content
+$Standardtemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/StandardTemplate.txt" -usebasicparsing).content
+$ReportOutagetemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnOutageTemplate.txt" -usebasicparsing).content
+$ReportSM360template = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnSM360Outage.txt" -usebasicparsing).content
+$Techexceptiontemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/TechExceptionTemplate.txt" -usebasicparsing).content
+
 function PIDBox_TextChanged
 {
 	param($sender, $e)
@@ -415,17 +427,6 @@ function DropDownClose
 {
 	param($sender, $e)
 	# code that is run when the drop down template menu is closed - this will set the content for the journal note. 
-	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate1.txt" -Raw
-	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate2.txt" -Raw
-	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate3.txt" -Raw
-	$Nactemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/NacVPNTroubleShootingTemplate.txt" -usebasicparsing).content
-	$PWRStemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/PasswordResetTemplate.txt" -usebasicparsing).content
-	$Standardtemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/StandardTemplate.txt" -usebasicparsing).content
-	$ReportOutagetemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnOutageTemplate.txt" -usebasicparsing).content
-	$ReportSM360template = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnSM360Outage.txt" -usebasicparsing).content
-	$Techexceptiontemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/TechExceptionTemplate.txt" -usebasicparsing).content
-
-
 
 	$global:selection = $TemplateComboBox.selectedItem.Content.ToString()
 	if($global:selection -eq "Standard Template"){
