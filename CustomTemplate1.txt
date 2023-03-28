@@ -1,7 +1,7 @@
 How to edit this template:
 
 1. press Win+R (the windows key on your keyboard and R at the same time)
-2. paste in the following command including the quotes:
+2. paste in the following command:
 
 notepad.exe %localappdata%\CloudTools\CustomTemplate1.txt
 
