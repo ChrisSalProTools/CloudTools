@@ -56,6 +56,8 @@ mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets\Archived | out-null
 0 | out-file "$env:userprofile\AppData\Local\CloudTools\mode.txt"                                                               # config file for compact vs full mode
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
+                                                                                                                                # User Added Classifications
+"Security,Password Reset,Active Directory Lockout,IT Support Desk,AD Lockout" > "$env:userprofile\AppData\Local\CloudTools\AddedClassifications.txt"
 
 # template files need to be initilized so they can be pulled
 
