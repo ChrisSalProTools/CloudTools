@@ -1,0 +1,9 @@
+How to edit this template:
+
+1. press Win+R (the windows key on your keyboard and R at the same time)
+2. paste in the following command including the quotes:
+
+notepad.exe %localappdata%\CloudTools\CustomTemplate2.txt
+
+3. Change this file however you like - make your own template or add new templates. 
+4. Save this file. Either press Control+S or press File (in the top left) > Save
