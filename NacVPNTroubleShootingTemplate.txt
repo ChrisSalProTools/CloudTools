@@ -1,0 +1,32 @@
+========================================
+NAC VPN Troubleshooting
+========================================
+Summary of Issue: 
+User Verification (Make sure to verify both the NetIQ questions and Symantec VIP Token)
+Username/Login ID:
+When did the issue last work as expected? 
+Troubleshooting / Escalation Actions Taken including any workarounds (Include Screenshots as Attachments): 
+ - Can the user log into Global Protect with Username, Password and VIP Token?
+ - Can the user get NetIQ AA authenticated?
+ - Is the caller prompted to download the NAC client?
+ - Can the caller download the NAC client?
+ - Can the caller run the NAC client?
+ - What is the exact error the user receives?
+ - Has the user restarted the computer since the last time NACVPN was used?
+ - Has the user removed all previous NAC compliance downloads?
+========================================
+Symantec VIP\NetIQ AA\Forescout Information
+========================================
+Is the Symantec VIP credential healthy and does it work?
+Is NetIQ Healthy and does it work?
+Can the record be found in Forescout?
+Does part of the record (Username, Host, GUID) match another record?
+Was anything removed from Forescout (provide PID, Computer Name, GUID or IP to search on)?
+========================================
+User Information
+========================================
+Contact Phone Number: 
+Best Method of Contact: 
+Computer Name\IP:
+Computer Operating System: 
+Country Location of User:
