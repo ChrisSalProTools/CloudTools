@@ -38,6 +38,13 @@ mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets\Archived | out-null
 0 | out-file "$env:userprofile\AppData\Local\CloudTools\mode.txt"                                                               # config file for compact vs full mode
 "Your personal notes page" | out-file "$env:userprofile\Appdata\local\CloudTools\notes.txt"                                     # initial creation of notes page
 "$env:userprofile\Appdata\local\CloudTools\notes.txt" | out-file "$env:userprofile\Appdata\local\CloudTools\location.txt"       # location of notes page initilized
+
+# template files need to be initilized so they can be pulled
+
+(invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate1.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate1.txt
+(invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate2.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate2.txt
+(invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate3.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate3.txt
+
 "AP-VPN" > "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "AP-VPN-FieldOps-Employees" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "AP-VPN-FieldOps-Contractors" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
