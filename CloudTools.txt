@@ -18,6 +18,7 @@ start-sleep -seconds 10
 write-output "Connection established..."
 
 if (Test-Path "$env:userprofile\Appdata\local\CloudTools"){
+write-output ""
 write-output "________   ___        _________   ___   ___   ______     "
 write-output "|  ____|   | |        | _____ |   | |   | |   | ___ \    "
 write-output "| |        | |        | |   | |   | |   | |   | |  \ \   "
@@ -39,7 +40,7 @@ write-output "By Chris Saladin"
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
 start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
 start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
-start-sleep -seconds 1
+start-sleep -seconds 2
 }else{
 # this code is for when the above test-path fails - meaning the tool is not installed and no config files exist
 Write-output "ITSDProTools not installed."
