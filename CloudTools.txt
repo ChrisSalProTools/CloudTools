@@ -18,28 +18,45 @@ start-sleep -seconds 10
 write-output "Connection established..."
 
 if (Test-Path "$env:userprofile\Appdata\local\CloudTools"){
-write-output ""
-write-output "________   ___        _________   ___   ___   ______     "
-write-output "|  ____|   | |        | _____ |   | |   | |   | ___ \    "
-write-output "| |        | |        | |   | |   | |   | |   | |  \ \   "
-write-output "| |        | |        | |   | |   | |   | |   | |   \ \  "
-write-output "| |        | |        | |   | |   | |   | |   | |   | |  "
-write-output "| |        | |        | |   | |   | |   | |   | |  / /   "
-write-output "| |_____   | |____    | |___| |   | |___| |   | | / /    "
-write-output "|______|   |______|   |_______|   |_______|   |____/     " 
-
-write-output "_______________   _________   _________   ___        _________ "
-write-output "|_____   _____|   | _____ |   | _____ |   | |        |  _____| "
-write-output "      | |         | |   | |   | |   | |   | |        | |       "
-write-output "      | |         | |   | |   | |   | |   | |        | |____   "
-write-output "      | |         | |   | |   | |   | |   | |        |____  |  "
-write-output "      | |         | |   | |   | |   | |   | |             | |  "
-write-output "      | |         | |___| |   | |___| |   | |____    _____| |  "
-write-output "      |_|         |_______|   |_______|   |______|   |______|  "
-write-output "By Chris Saladin"
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
 start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
 start-process powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen'
+write-output ""
+start-sleep -milliseconds 75
+write-output "________   ___        _________   ___   ___   ______     "
+start-sleep -milliseconds 75
+write-output "|  ____|   | |        | _____ |   | |   | |   | ___ \    "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |  \ \   "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |   \ \  "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |   | |  "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |  / /   "
+start-sleep -milliseconds 75
+write-output "| |_____   | |____    | |___| |   | |___| |   | | / /    "
+start-sleep -milliseconds 75
+write-output "|______|   |______|   |_______|   |_______|   |____/     " 
+start-sleep -milliseconds 75
+
+write-output "_______________   _________   _________   ___        _________ "
+start-sleep -milliseconds 75
+write-output "|_____   _____|   | _____ |   | _____ |   | |        |  _____| "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |        | |       "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |        | |____   "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |        |____  |  "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |             | |  "
+start-sleep -milliseconds 75
+write-output "      | |         | |___| |   | |___| |   | |____    _____| |  "
+start-sleep -milliseconds 75
+write-output "      |_|         |_______|   |_______|   |______|   |______|  "
+start-sleep -milliseconds 75
+write-output "By Chris Saladin"
 start-sleep -seconds 2
 }else{
 # this code is for when the above test-path fails - meaning the tool is not installed and no config files exist
