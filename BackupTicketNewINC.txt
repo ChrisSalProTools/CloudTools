@@ -465,7 +465,12 @@ function ClassificationsButton
 	# code that is run when the classification button is pressed
 
 $headers = ("service", "category", "subcategory", "team default", "aliases")
-$GetServiceClassification = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/classifications.txt" -usebasicparsing).content | ConvertFrom-CSV -header $headers | out-gridview -passthru -title "Select Service Classification"
+
+$addedclasses = get-content "$env:userprofile\AppData\Local\CloudTools\AddedClassifications.txt"
+$onlineclasses = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/classifications.txt" -usebasicparsing).content
+$totalclasses = $addedclasses + $onlineclasses
+
+$GetServiceClassification = $totalclasses | ConvertFrom-CSV -header $headers | out-gridview -passthru -title "Select Service Classification"
 
 
 	$displayClassification = @($GetServiceClassification.Service,">",$GetServiceClassification.Category,">",$GetServiceClassification.Subcategory)
