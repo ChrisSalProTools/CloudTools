@@ -415,9 +415,9 @@ function DropDownClose
 {
 	param($sender, $e)
 	# code that is run when the drop down template menu is closed - this will set the content for the journal note. 
-	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 1.txt" -Raw
-	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 2.txt" -Raw
-	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 3.txt" -Raw
+	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate1.txt" -Raw
+	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate2.txt" -Raw
+	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate3.txt" -Raw
 	$Nactemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/NacVPNTroubleShootingTemplate.txt" -usebasicparsing).content
 	$PWRStemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/PasswordResetTemplate.txt" -usebasicparsing).content
 	$Standardtemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/StandardTemplate.txt" -usebasicparsing).content
