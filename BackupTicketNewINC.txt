@@ -415,15 +415,15 @@ function DropDownClose
 {
 	param($sender, $e)
 	# code that is run when the drop down template menu is closed - this will set the content for the journal note. 
-	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 1.txt" -Raw
-	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 2.txt" -Raw
-	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 3.txt" -Raw
-	$Nactemplate = get-content "$env:userprofile\AppData\Local\CloudTools\NACVPN Troubleshooting.txt" -Raw
-	$PWRStemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Password Reset Template.txt" -Raw
-	$Standardtemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Standard Template.txt" -Raw
-	$ReportOutagetemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Report an Outage.txt" -Raw
-	$ReportSM360template = get-content "$env:userprofile\AppData\Local\CloudTools\Report an Outage (Spectrum Mobile).txt" -Raw
-	$Techexceptiontemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Tech Exception.txt" -Raw
+	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 1.txt" -Raw
+	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 2.txt" -Raw
+	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\CustomTemplate 3.txt" -Raw
+	$Nactemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/NacVPNTroubleShootingTemplate.txt" -usebasicparsing).content
+	$PWRStemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/PasswordResetTemplate.txt" -usebasicparsing).content
+	$Standardtemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/StandardTemplate.txt" -usebasicparsing).content
+	$ReportOutagetemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnOutageTemplate.txt" -usebasicparsing).content
+	$ReportSM360template = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ReportAnSM360Outage.txt" -usebasicparsing).content
+	$Techexceptiontemplate = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/TechExceptionTemplate.txt" -usebasicparsing).content
 
 
 
