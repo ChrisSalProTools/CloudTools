@@ -1,0 +1,540 @@
+$xaml = '<Window
+
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="BackupTicketWindow"
+
+  Title="NewTicket" Height="820" Width="600" Background="BackgroundColorVar" FontFamily="Arial" FontSize="14"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
+        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ComboBox.Static.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="ButtonColorVar" Offset="0.0"/>
+            <GradientStop Color="ButtonColorVar" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFACACAC"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFECF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFEBF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAECFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAEBFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
+        <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="templateRoot" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                                <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Pressed.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Disabled.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+                    <theme:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </theme:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <Border x:Name="border" Background="{StaticResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
+                    <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                    <Setter Property="Foreground" Value="ButtonTextVar"/>
+                </Trigger>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+                    <theme:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </theme:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <ContentPresenter x:Name="contentPresenter" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="ComboBoxStyle1" TargetType="{x:Type ComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Padding" Value="6,3,5,3"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEditable" Value="true">
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="BackupTicketGrid" Margin="0,0,0,-6">
+        <TextBox x:Name="PIDBox" HorizontalAlignment="Left" Height="22" Margin="10,40,0,0" TextWrapping="Wrap" Width="452" RenderTransformOrigin="0.501,0.548" VerticalAlignment="Top" TextChanged="PIDBox_TextChanged1" FontSize="16" Text="&#xD;&#xA;" Foreground="ButtonTextVar" AllowDrop="True" Background="ButtonColorVar"/>
+        <Button x:Name="CheckName" Content="Check Names" HorizontalAlignment="Left" Height="22" Margin="467,40,0,0" VerticalAlignment="Top" Width="110" FontSize="16" Background="ButtonColorVar" Foreground="ButtonTextVar" Click="CheckNameClick"/>
+        <Label x:Name="PIDLabel" Content="Customer *" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="567" Foreground="BackgroundTextVar" FontSize="16"/>
+        <Label x:Name="DescriptionLabel" Content="Description *" HorizontalAlignment="Left" Height="28" Margin="10,77,0,0" VerticalAlignment="Top" Width="567" Foreground="BackgroundTextVar" FontSize="16"/>
+        <TextBox x:Name="DescriptionBox" HorizontalAlignment="Left" Height="110" Margin="10,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="567" FontSize="16" AcceptsReturn="True" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="JournalLabel" Content="Journal Note *" HorizontalAlignment="Left" Height="28" Margin="10,240,0,0" VerticalAlignment="Top" Width="567" FontSize="16" Foreground="BackgroundTextVar"/>
+        <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="TemplateComboBox" HorizontalAlignment="Left" Height="28" Margin="10,273,0,0" VerticalAlignment="Top" Width="567" FontSize="16" BorderBrush="ButtonColorVar" Foreground="ButtonTextVar" DropDownClosed="DropDownClose">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FFF0F0F0"/>
+                    <GradientStop Color="ButtonColorVar" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <ComboBoxItem Content="Standard Template"/>
+            <ComboBoxItem Content="NACVPN Troubleshooting"/>
+			<ComboBoxItem Content="Password Reset"/>
+			<ComboBoxItem Content="Report an Outage"/>
+			<ComboBoxItem Content="Report a Spectrum Mobile Outage"/>
+			<ComboBoxItem Content="Tech Exception"/>
+			<ComboBoxItem Content="Custom Template 1"/>
+			<ComboBoxItem Content="Custom Template 2"/>
+			<ComboBoxItem Content="Custom Template 3"/>
+			<ComboBox.Resources>
+				<SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="ButtonColorVar" />
+			</ComboBox.Resources>
+        </ComboBox>
+        <TextBox x:Name="JournalBox" HorizontalAlignment="Left" Height="200" Margin="10,318,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="567" FontSize="16" AcceptsReturn="True" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Label x:Name="ServiceClassificationLabel" Content="Service Classification *                                                                  Open Picker " HorizontalAlignment="Left" Height="28" Margin="10,534,0,0" VerticalAlignment="Top" Width="567" Foreground="BackgroundTextVar" FontSize="16"/>
+        <TextBox x:Name="ClassificationTextBox" HorizontalAlignment="Left" Height="28" Margin="10,567,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="452" TextChanged="ClassificationTextBox_TextChanged" FontSize="16" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Button x:Name="ServiceClassificationButton" Content="Classifications" HorizontalAlignment="Left" Height="28" Margin="467,567,0,0" VerticalAlignment="Top" Width="110" Background="ButtonColorVar" Foreground="ButtonTextVar" FontSize="16" Click="ClassificationsButton"/>
+        <Label x:Name="TeamAssignmentLabel" Content="Assigned Team *" HorizontalAlignment="Left" Height="28" Margin="10,647,0,0" VerticalAlignment="Top" Width="567" Foreground="BackgroundTextVar" FontSize="16"/>
+        <TextBox x:Name="AssignedTeamTextBox" HorizontalAlignment="Left" Height="28" Margin="10,680,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="567" FontSize="16" Text="IT Support Desk" Background="ButtonColorVar" Foreground="ButtonTextVar"/>
+        <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Left" Height="28" Margin="10,729,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.488,0.513" Background="ButtonColorVar" Foreground="ButtonTextVar" FontSize="16" Click="SubmitButtonClick"/>
+        <Label x:Name="MissingClassLabel" Content="Add Missing Service Classification" HorizontalAlignment="Left" Height="28" Margin="10,606,0,0" VerticalAlignment="Top" Width="452" Foreground="BackgroundTextVar" FontSize="16"/>
+        <Button x:Name="AddClassificationButton" Content="Add" HorizontalAlignment="Left" Height="28" Margin="467,606,0,0" VerticalAlignment="Top" Width="110" Background="ButtonColorVar" Foreground="ButtonTextVar" FontSize="16" Click="AddNewServiceClassificationButtonClick"/>
+    </Grid>
+
+</Window>'
+
+start-process powershell.exe -windowstyle hidden -argumentlist 'Invoke-Expression (Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing).content'
+
+function Add-ControlVariables {
+	
+New-Variable -Name 'PIDBox' -Value $window.FindName('PIDBox') -Scope 1 -Force
+New-Variable -Name 'DescriptionBox' -Value $window.FindName('DescriptionBox') -Scope 1 -Force	
+New-Variable -Name 'TemplateComboBox' -Value $window.FindName('TemplateComboBox') -Scope 1 -Force
+New-Variable -Name 'JournalBox' -Value $window.FindName('JournalBox') -Scope 1 -Force	
+New-Variable -Name 'ClassificationTextBox' -Value $window.FindName('ClassificationTextBox') -Scope 1 -Force	
+New-Variable -Name 'ServiceClassificationButton' -Value $window.FindName('ServiceClassificationButton') -Scope 1 -Force
+New-Variable -Name 'AssignedTeamTextBox' -Value $window.FindName('AssignedTeamTextBox') -Scope 1 -Force	
+New-Variable -Name 'SubmitButton' -Value $window.FindName('SubmitButton') -Scope 1 -Force	
+New-Variable -Name 'CheckName' -Value $window.FindName('CheckName') -Scope 1 -Force	
+New-Variable -Name 'AddClassificationButton' -Value $window.FindName('AddClassificationButton') -Scope 1 -Force
+}
+
+[System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
+
+function Import-Xaml {
+	$BackgroundColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Background.txt
+  	$ButtonColorChoice = get-content $env:userprofile\AppData\Local\CloudTools\Button.txt
+  	$BackgroundText = get-content $env:userprofile\AppData\Local\CloudTools\BackgroundText.txt
+  	$ButtonText = get-content $env:userprofile\AppData\Local\CloudTools\ButtonText.txt
+	$xaml = $xaml -replace "BackgroundColorVar","$BackgroundColorChoice"
+	$xaml = $xaml -replace "ButtonColorVar","$ButtonColorChoice"
+	$xaml = $xaml -replace "ButtonTextVar","$ButtonText"
+	$xaml = $xaml -replace "BackgroundTextVar","$BackgroundText"
+        [xml]$xaml = $xaml
+	$manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml.NameTable
+	$manager.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml");
+	$xaml.SelectNodes("//*[@x:Name='PIDBox']", $manager)[0].RemoveAttribute('TextChanged')
+	$xaml.SelectNodes("//*[@x:Name='TemplateComboBox']", $manager)[0].RemoveAttribute('ContextMenuClosing')
+	$xaml.SelectNodes("//*[@x:Name='TemplateComboBox']", $manager)[0].RemoveAttribute('DropDownClosed')
+	$xaml.SelectNodes("//*[@x:Name='ClassificationTextBox']", $manager)[0].RemoveAttribute('TextChanged')
+	$xaml.SelectNodes("//*[@x:Name='ServiceClassificationButton']", $manager)[0].RemoveAttribute('Click')
+	$xaml.SelectNodes("//*[@x:Name='SubmitButton']", $manager)[0].RemoveAttribute('Click')
+	$xaml.SelectNodes("//*[@x:Name='CheckName']", $manager)[0].RemoveAttribute('Click')
+	$xaml.SelectNodes("//*[@x:Name='AddClassificationButton']", $manager)[0].RemoveAttribute('Click')
+	$xamlReader = New-Object System.Xml.XmlNodeReader $xaml
+	[Windows.Markup.XamlReader]::Load($xamlReader)
+}
+
+function Set-EventHandler {
+
+	$PIDBox.add_TextChanged({
+		param([System.Object]$sender,[System.Windows.Controls.TextChangedEventArgs]$e)
+		PIDBox_TextChanged -sender $sender -e $e
+	})
+	$TemplateComboBox.add_DropDownClosed({
+		param([System.Object]$sender,[System.EventArgs]$e)
+		DropDownClose -sender $sender -e $e
+	})
+	$ServiceClassificationButton.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		ClassificationsButton -sender $sender -e $e
+	})
+	$SubmitButton.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		SubmitButtonClick -sender $sender -e $e
+	})
+	$CheckName.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		CheckNameClick -sender $sender -e $e
+	})
+	$AddClassificationButton.add_Click({
+		param([System.Object]$sender,[System.Windows.RoutedEventArgs]$e)
+		AddNewServiceClassificationButtonClick -sender $sender -e $e
+	})
+}
+
+$window = Import-Xaml
+Add-ControlVariables
+Set-EventHandler
+
+function PIDBox_TextChanged
+{
+	param($sender, $e)
+	# code that is run when something is entered into the PID box - thinking about using this to build a timer to auto query AD for the user instead of having to press "check names"
+	#$global:username = $PIDBox.Text
+}
+
+
+function DropDownClose
+{
+	param($sender, $e)
+	# code that is run when the drop down template menu is closed - this will set the content for the journal note. 
+	$custom1template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 1.txt" -Raw
+	$custom2template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 2.txt" -Raw
+	$custom3template = get-content "$env:userprofile\AppData\Local\CloudTools\Custom Template 3.txt" -Raw
+	$Nactemplate = get-content "$env:userprofile\AppData\Local\CloudTools\NACVPN Troubleshooting.txt" -Raw
+	$PWRStemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Password Reset Template.txt" -Raw
+	$Standardtemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Standard Template.txt" -Raw
+	$ReportOutagetemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Report an Outage.txt" -Raw
+	$ReportSM360template = get-content "$env:userprofile\AppData\Local\CloudTools\Report an Outage (Spectrum Mobile).txt" -Raw
+	$Techexceptiontemplate = get-content "$env:userprofile\AppData\Local\CloudTools\Tech Exception.txt" -Raw
+
+
+
+	$global:selection = $TemplateComboBox.selectedItem.Content.ToString()
+	if($global:selection -eq "Standard Template"){
+		$JournalBox.Text = $Standardtemplate
+	}
+	if($global:selection -eq "Password Reset"){
+		$JournalBox.Text = $PWRStemplate
+	}
+	if($global:selection -eq "NACVPN Troubleshooting"){
+		$JournalBox.Text = $Nactemplate
+	}
+	if($global:selection -eq "Report an Outage"){
+		$JournalBox.Text = $ReportOutagetemplate
+	}
+	if($global:selection -eq "Report a Spectrum Mobile Outage"){
+		$JournalBox.Text = $ReportSM360template
+	}
+	if($global:selection -eq "Tech Exception"){
+		$JournalBox.Text = $Techexceptiontemplate
+	}
+	if($global:selection -eq "Custom Template 1"){
+		$JournalBox.Text = $custom1template
+	}
+	if($global:selection -eq "Custom Template 2"){
+		$JournalBox.Text = $custom2template
+	}
+	if($global:selection -eq "Custom Template 3"){
+		$JournalBox.Text = $custom3template
+	}
+}
+
+
+function ClassificationsButton
+{
+	param($sender, $e)
+	# code that is run when the classification button is pressed
+
+$headers = ("service", "category", "subcategory", "team default", "aliases")
+$GetServiceClassification = (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/classifications.txt" -usebasicparsing).content | ConvertFrom-CSV -header $headers | out-gridview -passthru -title "Select Service Classification"
+
+
+	$displayClassification = @($GetServiceClassification.Service,">",$GetServiceClassification.Category,">",$GetServiceClassification.Subcategory)
+	$teamassignment = $GetServiceClassification.'Team Default'
+
+	$ClassificationTextBox.Text = "$displayClassification"
+	$AssignedTeamTextBox.Text = "$teamassignment"
+}
+
+
+
+function SubmitButtonClick
+{
+	param($sender, $e)
+	# Code that is run when the submit button is pressed
+	$customer = $PIDbox.Text
+	$description = $DescriptionBox.Text
+	$journal = $JournalBox.Text
+	$serviceclassification = $ClassificationTextBox.Text
+	$assignedteam = $AssignedTeamTextBox.Text
+	$timestamp = get-date
+	$completed = $false
+
+	$dataLoader = @($customer,$description,$journal,$serviceclassification,$assignedteam,$timestamp,$completed)
+
+	$dataLoader[0] | ForEach-Object {
+		[PSCustomObject]@{
+			'Customer' = $dataLoader[0]
+			'Description' = $dataLoader[1]
+			'Journal' = $dataLoader[2]
+			'Service Classification' = $dataLoader[3]
+			'Team' = $dataLoader[4]
+			'Time' = $dataLoader[5]
+			'Complete' = $dataLoader[6]
+		}
+	} | export-csv -append -path $env:userprofile\AppData\Local\CloudTools\SavedTickets\workingTickets.csv
+	$PIDbox.Text = $null
+	$DescriptionBox.Text = $null
+	$JournalBox.Text = $null
+	$ClassificationTextBox.Text = $null
+	$AssignedTeamTextBox.Text = "IT Support Desk"
+	$timestamp = $null
+}
+
+
+
+function CheckNameClick
+{
+	param($sender, $e)
+	# Code that is run when the check name button is clicked
+	$chtrdc = get-content $env:userprofile\AppData\Local\CloudTools\chtrdc.txt
+	$enteredPID = $PIDBox.Text
+	$enteredPID = $enteredPID -replace "`n","$null"
+	$customer = get-aduser $enteredPID -server $chtrdc -Properties * | Select-Object CN
+	$customer = $customer.CN
+	$PIDbox.Text = $customer
+}
+
+
+
+function AddNewServiceClassificationButtonClick
+{
+	param($sender, $e)
+	start-process powershell.exe -argumentlist 'Invoke-Expression (Invoke-webrequest "" -usebasicparsing).content'
+}
+
+$ontop = get-content "$env:userprofile\AppData\Local\CloudTools\ontop.txt"
+
+if ($ontop -eq 1){
+$window.topmost="True"
+}
+
+$window.ShowDialog()
