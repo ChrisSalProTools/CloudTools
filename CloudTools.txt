@@ -60,8 +60,10 @@ write-output "By Chris Saladin"
 start-sleep -seconds 2
 }else{
 # this code is for when the above test-path fails - meaning the tool is not installed and no config files exist
-Write-output "ITSDProTools not installed."
-Write-output "Generating config files..."
+Write-output "Installing..."
+write-output ""
+start-sleep -milliseconds 75
+write-output "________   ___        _________   ___   ___   ______     "
 mkdir $env:userprofile\Appdata\local\CloudTools | out-null                                                                      # main folder to house appdata files in
 mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets | out-null                                                         # folder to house working tickets in
 mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets\Archived | out-null                                                # folder to house archived tickets in
@@ -78,9 +80,18 @@ mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets\Archived | out-null
 
 # template files need to be initilized so they can be pulled
 
+start-sleep -milliseconds 75
+write-output "|  ____|   | |        | _____ |   | |   | |   | ___ \    "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |  \ \   "
+
 (invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate1.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate1.txt
 (invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate2.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate2.txt
 (invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CustomTemplate3.txt" -usebasicparsing).content > $env:userprofile\AppData\Local\CloudTools\CustomTemplate3.txt
+
+write-output "| |        | |        | |   | |   | |   | |   | |   \ \  "
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |   | |  "
 
 "AP-VPN" > "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "AP-VPN-FieldOps-Employees" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
@@ -88,11 +99,21 @@ mkdir $env:userprofile\Appdata\local\CloudTools\SavedTickets\Archived | out-null
 "RG-VPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 "RG-NACVPN" >> "$env:userprofile\Appdata\local\CloudTools\permissions.txt"
 
+start-sleep -milliseconds 75
+write-output "| |        | |        | |   | |   | |   | |   | |  / /   "
+start-sleep -milliseconds 75
+write-output "| |_____   | |____    | |___| |   | |___| |   | | / /    "
+
 # to copy to desktop, this must be run from the folder where it's being copied from. 
 cd $env:userprofile\AppData\Local\CloudTools
 
 # download icon
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDIcon.ico?raw=true" -outfile "$env:userprofile\appdata\local\CloudTools\ITSDProTools.ico"
+
+write-output "|______|   |______|   |_______|   |_______|   |____/     " 
+start-sleep -milliseconds 75
+
+write-output "_______________   _________   _________   ___        _________ "
 
 # download shortcut
 Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main/ITSDProTools.lnk?raw=true" -outfile "$env:userprofile\AppData\local\CloudTools\ITSD Pro Tools (Cloud).lnk"
@@ -101,15 +122,25 @@ Invoke-WebRequest -Uri "https://github.com/ChrisSalProTools/CloudTools/blob/main
 $DesktopPath = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
 copy-item "$env:userprofile\AppData\local\CloudTools\ITSD Pro Tools (Cloud).lnk" $DesktopPath
 
+start-sleep -milliseconds 75
+write-output "|_____   _____|   | _____ |   | _____ |   | |        |  _____| "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |        | |       "
+
 # this section handles the creation of the server list
-Write-output "Generating CHTR server list..."
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/chtrsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
-write-output "CHTR server list created"
-write-output "Generating TWC server list..."
+write-output "      | |         | |   | |   | |   | |   | |        | |____   "
+start-sleep -milliseconds 75
+write-output "      | |         | |   | |   | |   | |   | |        |____  |  "
 start-process -wait powershell.exe -windowstyle hidden -argumentlist '$gen = Invoke-WebRequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/twcsrv.txt" -usebasicparsing; $gen = $gen.content; Invoke-Expression $gen; exit'
-Write-output "Finished!"
-Write-output "Launching..."
+write-output "      | |         | |   | |   | |   | |   | |             | |  "
+start-sleep -milliseconds 75
+write-output "      | |         | |___| |   | |___| |   | |____    _____| |  "
 start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
+write-output "      |_|         |_______|   |_______|   |______|   |______|  "
+start-sleep -milliseconds 75
+write-output "By Chris Saladin"
+start-sleep -seconds 2
 }
 
 exit
