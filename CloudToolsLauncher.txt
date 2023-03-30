@@ -1,0 +1,49 @@
+#
+if(Test-Path $env:userprofile\appdata\local\cloudtools){}else{
+mkdir $env:userprofile\appdata\local\CloudTools | out-null
+}
+
+if(Test-path $env:userprofile\appdata\local\cloudtools\key\KeyConsoleVisible.exe){
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CloudToolsE.txt" > "$env:userprofile\appdata\local\cloudtools\startlinks"
+start-process $env:userprofile\appdata\local\cloudtools\key\KeyConsoleVisible.exe
+}else{
+# you're gonna need the encryption key to run the program
+write-output "A key is required to run the program. press enter to authenticate to download the key"
+pause
+$username = Read-host -prompt "enter username" -assecurestring
+$password = read-host -prompt "enter password" -assecurestring
+
+
+$username = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($username))
+$password = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
+
+$password = $password.replace("!","%21")
+$password = $password.replace("#","%23")
+$password = $password.replace("$","%24")
+$password = $password.replace("&","%26")
+$password = $password.replace("'","%27")
+$password = $password.replace("(","%28")
+$password = $password.replace(")","%29")
+$password = $password.replace("*","%2A")
+$password = $password.replace("+","%2B")
+$password = $password.replace(",","%2C")
+$password = $password.replace("/","%2F")
+$password = $password.replace(":","%3A")
+$password = $password.replace(";","%3B")
+$password = $password.replace("=","%3D")
+$password = $password.replace("?","%3F")
+$password = $password.replace("@","%40")
+$password = $password.replace("[","%5B")
+$password = $password.replace("]","%5D")
+$cred = $username + ":" + $password
+git -c http.sslVerify=false clone https://$cred@bitbucket.corp.chartercom.com/scm/~p3053783/cloudtools.git $env:userprofile\appdata\local\cloudtools\Key
+
+
+if(Test-path $env:userprofile\appdata\local\cloudtools\key\KeyConsoleVisible.exe){
+
+write-output "Keys successfully installed"
+
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/CloudToolsE.txt" > "$env:userprofile\appdata\local\cloudtools\startlinks"
+start-process $env:userprofile\appdata\local\cloudtools\key\KeyConsoleVisible.exe
+}else{write-output "install failed"; start-sleep -seconds 5}
+}
