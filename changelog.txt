@@ -1,3 +1,7 @@
+1.1.2
+Begun work on making this online tool encrypted. 
+Corrected bug where version numbers did not display correctly with pwsh.
+
 1.1.1
 Begun work on the backup ticket button. the initial backup ticket launcher works and the "archive CSV" button works as well.
 
