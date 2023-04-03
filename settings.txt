@@ -93,7 +93,7 @@ $twcserverint = $twcserverint.ToLower()
 $logonserver = $env:LOGONSERVER
 $versionnum = invoke-webrequest -uri "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/changelog.txt"
 $versionnum = $versionnum.content
-$versionnum = $versionnum.Split("`r`n")
+$versionnum = $versionnum.Split("`n")
 $versionnum = $versionnum[0]
 $version = "ITSD Pro Tools Version " + "$versionnum"
 $perms = get-content "$env:userprofile\AppData\Local\CloudTools\permissions.txt" -raw
@@ -211,7 +211,7 @@ function ChangeLogButtonClick
 
 $changelognotes = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/changelog.txt" -usebasicparsing
 $changelognotes = $changelognotes.content
-$changelognotes = $changelognotes.split("`r`n")
+$changelognotes = $changelognotes.split("`n")
 
 $mod = 0
 $changelognotes | foreach {
