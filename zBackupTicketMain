@@ -60,6 +60,20 @@ function Set-EventHandler {
 	})
 }
 
+function startlinksFree(){
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+$timedout = 0
+do{
+if($timedout -ge 15){
+$null | out-file $env:userprofile\appdata\local\cloudtools\startlinks
+}
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+$timedout++
+}while($ifexist -ne $null)
+}}
+
 $window = Import-Xaml
 
 
@@ -73,7 +87,9 @@ function NewTicket
 {
 	param($sender, $e)
 	# code that will execute when the "new ticket" button is pressed
-	start-process powershell.exe -windowstyle hidden -argumentlist 'Invoke-expression (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/BackupTicketNewINC.txt" -usebasicparsing).content'
+	startlinksFree
+	"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/BackupTicketNewINC.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+	start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
 }
 
 
