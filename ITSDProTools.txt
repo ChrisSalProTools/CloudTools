@@ -54,7 +54,18 @@ $itsdform.searchButton.add_Click({
 })
 
 $itsdform.BsamButton.add_Click({
-Start-process powershell.exe -windowstyle hidden -argumentlist 'Invoke-expression (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/addnote.txt" -usebasicparsing).content'
+
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+do{
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+}while($ifexist -ne $null)
+}
+
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/addnote.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+
+start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
 })
 
 $itsdform.PermissionsButton.add_Click({
@@ -86,8 +97,18 @@ add-content "$env:userprofile\Downloads\index.html" "$template"; Add-content "$e
 
 $itsdform.VerifyButton.add_Click({
 $UsrInput = $itsdform.inputBox.text
+
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+do{
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+}while($ifexist -ne $null)
+}
+
 $UsrInput > $env:userprofile\AppData\Local\CloudTools\outfile.txt
-start-process powershell.exe -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/verify.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/verify.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleVisible.exe
 $itsdform.inputBox.text = ""
 })
 
@@ -96,7 +117,17 @@ $itsdform.PWButton.add_Click({
 
 $itsdform.LockoutButton.add_Click({
 # this has been repurposed as the backup ticket form
-Start-process powershell.exe -windowstyle hidden -argumentlist 'Invoke-expression (Invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/BackupTicketMain" -usebasicparsing).content'
+
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+do{
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+}while($ifexist -ne $null)
+}
+
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/BackupTicketMain" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
 })
 
 $itsdform.CMSButton.add_Click({
@@ -106,8 +137,28 @@ $itsdform.ADMButton.add_Click({
 })
 
 $itsdform.SettingsButton.add_Click({
-start-process powershell.exe -wait -windowstyle hidden -argumentlist '$settings = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/settings.txt" -usebasicparsing; $settings = $settings.content; invoke-expression $settings'
-start-process powershell.exe -windowstyle hidden -argumentlist '$run = invoke-webrequest "https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" -usebasicparsing; $run = $run.content; Invoke-Expression $run'
+
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+do{
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+}while($ifexist -ne $null)
+}
+
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/settings.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+start-process -wait $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
+
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+if($ifexist -ne $null){
+do{
+start-sleep -seconds 1
+$ifexist = get-content "$env:userprofile\AppData\Local\CloudTools\startlinks"
+}while($ifexist -ne $null)
+}
+
+"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/ITSDProTools.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
 exit
 })
 
