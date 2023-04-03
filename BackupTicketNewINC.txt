@@ -534,7 +534,8 @@ function CheckNameClick
 function AddNewServiceClassificationButtonClick
 {
 	param($sender, $e)
-	start-process powershell.exe -argumentlist 'Invoke-Expression (Invoke-webrequest "" -usebasicparsing).content'
+	"https://raw.githubusercontent.com/ChrisSalProTools/CloudTools/main/AddClassification.txt" > "$env:userprofile\AppData\Local\CloudTools\startlinks"
+	start-process $env:userprofile\AppData\Local\CloudTools\Key\KeyConsoleHidden.exe
 }
 
 $ontop = get-content "$env:userprofile\AppData\Local\CloudTools\ontop.txt"
