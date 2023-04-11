@@ -1,6 +1,0 @@
-$mod = 0
-
-do{
-start-process notepad.exe
-$mod++
-}while($mod -ne 25)
